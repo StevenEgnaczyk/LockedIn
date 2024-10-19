@@ -3,13 +3,7 @@
 .user-merge-container {
     border-radius: 10px;
     padding: 1rem;
-    text-align: left; /* Align text to the left */
-    width: 50vh; /* Adjust width as needed */
-    background-color: #f9f9f9; /* Light background color */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-    position: absolute; /* Positioning to the right */
-    right: 0; /* Align to the right */
-    top: 20px; /* Adjust top position as needed */
+    color: white;
 }
 
 .user-merge-header {
