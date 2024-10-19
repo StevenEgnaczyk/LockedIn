@@ -1,0 +1,38 @@
+.auth-container {
+    background-color: #282c34;
+    border-radius: 10px;
+    padding: 1rem;
+    text-align: center;
+    max-width: 50vh;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    height: 25vh;
+}
+
+.input-container {
+    display: flex;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+input {
+    height: 25px;
+}
+
+button {
+    height: 25px;
+    position: relative; /*ensures button animation is correct spot*/
+}
+
+.swap-button {
+    border: none;
+    background: transparent;
+    padding-inline: 10px;
+    color: white;
+}
