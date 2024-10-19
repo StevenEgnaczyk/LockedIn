@@ -23,7 +23,7 @@ const Startup = ({user, setUser}) => {
                         <Login setUser={setUser} />
                     )}
                     <button className={"swap-button"} onClick={toggleAuthMode}>
-                        <span>{isSigningUp ? "Already have an account? Login" : "Need an account? Sign up"}</span>
+                        <span className={'swap-text'}>{isSigningUp ? "Already have an account? Login" : "Need an account? Sign up"}</span>
                     </button>
                 </div>
             </div>

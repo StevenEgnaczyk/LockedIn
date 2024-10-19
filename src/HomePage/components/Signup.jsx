@@ -24,9 +24,9 @@ const Signup = () => {
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}/>
                 </div>
-                <Button color="primary">
-                    Signup
-                </Button>
+                <div className={'button'}>
+                    <span className={'text'}>Signup</span>
+                </div>
             </form>
         </div>
     )

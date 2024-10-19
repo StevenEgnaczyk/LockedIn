@@ -68,6 +68,7 @@ const LoginGraph = () => {
             <div className={"startup"}>
                 <Startup />
             </div>
+            <div className={'dot'}>.</div>
 
         </div>
 );};

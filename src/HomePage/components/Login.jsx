@@ -12,21 +12,19 @@ const Login = () => {
         <div className="auth-container">
             <h2>Login</h2>
             <form className="login-form">
-                <div className="input-container">
-                    <Input
-                        type="email"
-                        placeholder="Email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}/>
-                    <Input
-                        type="password"
-                        placeholder="Password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}/>
+                <Input
+                    type="email"
+                    placeholder="Email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}/>
+                <Input
+                    type="password"
+                    placeholder="Password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}/>
+                <div className={'button'}>
+                    <span className={'text'}>Login</span>
                 </div>
-                <Button color="primary">
-                    Login
-                </Button>
             </form>
         </div>
     )
