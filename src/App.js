@@ -38,6 +38,7 @@ const App = () => {
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [rotationSpeed, setRotationSpeed] = useState(0.01);
+  const [graphData, setGraphData] = useState(null);
 
   const fakeData = generateFakeData(250, 500);
   const graphRef = useRef();
@@ -49,6 +50,21 @@ const App = () => {
       angle += rotationSpeed;
     }
   };
+
+  useEffect(() => {
+    const fetchGraphData = async () => {
+      try {
+        // If the JSON file is local, you can use a fetch request
+        const response = await fetch('./connections_graph.json');  // Replace with actual path
+        const data = await response.json();
+        setGraphData(data);
+      } catch (error) {
+        console.error('Error loading graph data:', error);
+      }
+    };
+
+    fetchGraphData();
+  }, []);
 
   const resetCameraPosition = () => {
     if (graphRef.current) {
