@@ -3,11 +3,7 @@ import React, {useEffect, useRef, useState} from "react";
 import ForceGraph3D from "react-force-graph-3d";
 import NavBarLeft from "./HomePage/components/NavBarLeft";
 import Startup from "./HomePage/components/Startup";
-import UploadBar from "./HomePage/components/UploadBar";
 import PositionControls from './HomePage/components/PositionControls'
-import FileUpload from './HomePage/components/FileUpload';
-import UserMerge from './HomePage/components/UserMerge';
-import UserGraph from './Graphs/UserGraph';
 import UploadBar from "./HomePage/components/UploadBar";
 import { toast, ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
@@ -35,14 +31,16 @@ const generateFakeData = (nodeCount = 10, linkCount = 15) => {
 };
 
 const App = () => {
+
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [rotationSpeed, setRotationSpeed] = useState(0.01);
+
   const fakeData = generateFakeData(250, 500);
   const graphRef = useRef();
   let angle = 0;
 
   const rotateGraph = () => {
     if (graphRef.current) {
-      // Rotate the whole scene except for the central node
-      const rotationSpeed = 0.01;
       graphRef.current.scene().rotation.y = angle;
       angle += rotationSpeed;
     }
@@ -71,10 +69,10 @@ const App = () => {
     return () => clearInterval(interval); // Clean up the interval on component unmount
   }, []);
 
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const handleLogin = () => {
     setIsLoggedIn(true);
+    setRotationSpeed(0);
   }
 
   const realData = generateFakeData(10, 10);
