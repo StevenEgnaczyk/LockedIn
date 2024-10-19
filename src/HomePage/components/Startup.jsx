@@ -14,8 +14,8 @@ const Startup = ({user, setUser, onLogin}) => {
     };
 
     return (
-        <div>
             <div className="main-container">
+                <h1>LockedIn</h1>
                 <div className="auth-container">
                     {isSigningUp ? (
                         <Signup setUser={setUser} onLogin={onLogin}/>
@@ -27,8 +27,6 @@ const Startup = ({user, setUser, onLogin}) => {
                     </button>
                 </div>
             </div>
-
-        </div>
     )};
 
 
