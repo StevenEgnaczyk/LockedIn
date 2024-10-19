@@ -6,6 +6,7 @@ const UserMerge = () => {
   const [users, setUsers] = useState([]);
   const [selectedUsers, setSelectedUsers] = useState([]);
   const [mergedData, setMergedData] = useState(null);
+  const [mutualConnections, setMutualConnections] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -39,13 +40,34 @@ const UserMerge = () => {
     );
   };
 
+  const findMutualConnections = (selectedUserData) => {
+    if (selectedUserData.length < 2) return [];
+
+    // Assuming each user has a 'connections' field that is an array of connection IDs
+    const connectionSets = selectedUserData.map(user => new Set(user.connections || []));
+    
+    // Find the intersection of all connection sets
+    const mutualConnectionIds = connectionSets.reduce((a, b) => new Set([...a].filter(x => b.has(x))));
+    
+    // Filter users to only include mutual connections
+    return users.filter(user => mutualConnectionIds.has(user.id));
+  };
+
   const mergeSelectedUsers = () => {
     const selectedUserData = users.filter(user => selectedUsers.includes(user.id));
+    const mutualConnectionsList = findMutualConnections(selectedUserData);
+    setMutualConnections(mutualConnectionsList);
+
+    if (mutualConnectionsList.length === 0) {
+      setMergedData(null);
+      return;
+    }
+
     const mergedFields = {};
 
     selectedUserData.forEach(user => {
       Object.keys(user).forEach(key => {
-        if (key !== 'id') {
+        if (key !== 'id' && key !== 'connections') {
           if (!mergedFields[key]) {
             mergedFields[key] = new Set();
           }
@@ -89,11 +111,23 @@ const UserMerge = () => {
         </div>
       ))}
       <button onClick={mergeSelectedUsers} disabled={selectedUsers.length < 2}>
-        Merge Selected Users
+        Find Mutual Connections and Merge Data
       </button>
+      {mutualConnections.length > 0 ? (
+        <div>
+          <h3>Mutual Connections:</h3>
+          <ul>
+            {mutualConnections.map(user => (
+              <li key={user.id}>{user.first_name} {user.last_name}</li>
+            ))}
+          </ul>
+        </div>
+      ) : (
+        selectedUsers.length >= 2 && <div>No mutual connections found.</div>
+      )}
       {mergedData && (
         <div>
-          <h3>Merged Data:</h3>
+          <h3>Merged Data of Selected Users:</h3>
           <pre>{JSON.stringify(mergedData, null, 2)}</pre>
         </div>
       )}
