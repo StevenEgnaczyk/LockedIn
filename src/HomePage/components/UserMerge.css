@@ -1,46 +1,69 @@
 /* src/HomePage/components/UserMerge.css */
 
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4; /* Light background for better contrast */
+    margin: 0;
+}
+
+/* Container for the UserMerge component */
 .user-merge-container {
-    border-radius: 10px;
-    padding: 1rem;
-    color: white;
+    width: 85%;
+    background-color: #ffffff; /* White background for the component */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    padding: 20px; /* Padding around content */
+    max-width: 600px; /* Maximum width of the component */
+    margin: 0 auto; /* Centering the component */
 }
 
-.user-merge-header {
-    font-size: 24px;
-    margin-bottom: 20px;
+.user-merge-container h2 {
+    text-align: center; /* Center the title */
 }
 
-.user-checkbox {
-    margin: 10px 0;
+/* Title styling */
+h2 {
+    color: #333; /* Dark gray color for the title */
+    margin-bottom: 20px; /* Space below the title */
 }
 
-.mutual-connections {
-    margin-top: 20px;
-    padding: 10px;
-    background-color: #e0f7fa; /* Light blue background for mutual connections */
-    border-radius: 5px;
+/* Checkbox container for better layout */
+.checkbox-container {
+    margin-bottom: 15px; /* Space between checkboxes */
+    display: flex; /* Flexbox for alignment */
+    align-items: center; /* Center vertically */
 }
 
-.merged-data {
-    margin-top: 20px;
-    padding: 10px;
-    background-color: #e8f5e9; /* Light green background for merged data */
-    border-radius: 5px;
+/* Checkbox label styling */
+label {
+    margin-left: 8px; /* Space between checkbox and label */
+    cursor: pointer; /* Pointer cursor for labels */
+    color: #555; /* Medium gray for label text */
 }
 
+/* Button styling */
 button {
-    border: none;
-    border-radius: 5px;
-    padding: 0.5rem 1rem;
-    background-color: #007bff; /* Bootstrap primary color */
-    color: white;
-    cursor: pointer;
-    margin-top: 10px;
+    background-color: #007bff; /* Primary blue color */
+    color: white; /* White text */
+    border: none; /* No border */
+    border-radius: 4px; /* Rounded corners */
+    padding: 10px 15px; /* Padding inside button */
+    font-size: 16px; /* Font size */
+    cursor: pointer; /* Pointer cursor on hover */
+    transition: background-color 0.3s; /* Smooth transition */
 }
 
+/* Button hover effect */
+button:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}
+
+/* Disabled button styling */
 button:disabled {
-    background-color: #ccc; /* Grey out disabled button */
-    cursor: not-allowed;
+    background-color: #ccc; /* Light gray for disabled button */
+    cursor: not-allowed; /* Not allowed cursor */
 }
 
+input {
+    margin-bottom: 1rem;
+}
