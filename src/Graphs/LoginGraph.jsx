@@ -39,7 +39,6 @@ const LoginGraph = () => {
     };
 
     useEffect(() => {
-        // Set the camera distance to 300
         if (graphRef.current) {
             graphRef.current.cameraPosition(
                 { x: 0, y: 0, z: 800 },
