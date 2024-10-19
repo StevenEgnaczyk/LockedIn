@@ -9,6 +9,7 @@ import UploadBar from "./HomePage/components/UploadBar";
 import { ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 import FakeComponent from "./HomePage/components/FakeComponent";
+import NavBarRight from "./HomePage/components/NavBarRight";
 
 const generateFakeData = (nodeCount = 10, linkCount = 15) => {
   const nodes = Array.from({ length: nodeCount }, (_, i) => ({
@@ -38,7 +39,7 @@ const App = () => {
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [rotationSpeed] = useState(0.001);
-  const [isPaused, setPaused] = useState(false);
+  const [isPaused, setPaused] = useState(true);
   const [currentAngle, setCurrentAngle] = useState(0); // State to track the current angle
 
   const fakeData = generateFakeData(250, 500);
@@ -113,10 +114,10 @@ const App = () => {
         </div>}
         <div className={'dot'}>.</div>
         {isLoggedIn && <div>
-          <div className={"upload-bar"}>
-            <UploadBar />
+          <div className={"navbarright"}>
+            <NavBarRight />
           </div>
-          <div className={"navbar"}>
+          <div className={"navbarleft"}>
             <NavBarLeft />
           </div>
           <div className={'position-controls'}>
