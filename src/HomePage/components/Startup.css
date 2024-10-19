@@ -20,8 +20,19 @@
     align-items: center;
 }
 
+input {
+    height: 25px;
+}
+
 button {
-    height: auto;
+    height: 25px;
     position: relative; /*ensures button animation is correct spot*/
+}
+
+.swap-button {
+    border: none;
+    background: transparent;
+    padding-inline: 10px;
+    color: white;
 }
   

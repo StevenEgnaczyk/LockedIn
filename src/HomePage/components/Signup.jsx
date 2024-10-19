@@ -4,13 +4,13 @@ import {Input} from "@nextui-org/input";
 
 import './Startup.css';
 
-const Login = () => {
+const Signup = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
     return (
         <div className="auth-container">
-            <h2>Login</h2>
+            <h2>Signup</h2>
             <form className="login-form">
                 <div className="input-container">
                     <Input
@@ -25,11 +25,11 @@ const Login = () => {
                         onChange={(e) => setPassword(e.target.value)}/>
                 </div>
                 <Button color="primary">
-                    Login
+                    Signup
                 </Button>
             </form>
         </div>
     )
 }
 
-export default Login;
+export default Signup;

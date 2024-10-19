@@ -1,11 +1,11 @@
 import logo from './logo.svg';
 import './App.css';
-import Login from './HomePage/components/Login.jsx';
+import Startup from './HomePage/components/Startup.jsx';
 
 function App() {
   return (
     <div className="App">
-      <Login />
+      <Startup/>
     </div>
   );
 }
