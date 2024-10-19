@@ -129,18 +129,22 @@ const FileUpload = () => {
 
   return (
     <div className={'input-container'}>
-      <input 
-        type="text" 
-        placeholder="First Name" 
-        value={firstName} 
-        onChange={(e) => setFirstName(e.target.value)} 
-      />
-      <input 
-        type="text" 
-        placeholder="Last Name" 
-        value={lastName} 
-        onChange={(e) => setLastName(e.target.value)} 
-      />
+      <h2>Upload Connections CSV File</h2>
+      <div className={'input-labels'}>
+        <input 
+          type="text" 
+          placeholder="First Name" 
+          value={firstName} 
+          onChange={(e) => setFirstName(e.target.value)} 
+        />
+        <input 
+          type="text" 
+          placeholder="Last Name" 
+          value={lastName} 
+          onChange={(e) => setLastName(e.target.value)} 
+        />
+      </div>
+      
       <input type="file" accept=".csv" onChange={handleFileUpload} />
       {file && (
         <button onClick={handleSubmit}>Submit</button>
