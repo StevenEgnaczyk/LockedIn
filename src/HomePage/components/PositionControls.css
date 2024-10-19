@@ -1,4 +1,3 @@
-
 .controls-container {
     display: flex;
     flex-direction: row;
@@ -22,4 +21,11 @@
     color: white;
     margin: auto;
     cursor: pointer;
+}
+
+.pause-icon {
+    scale: 1.2; /* Adjust scale as needed */
+    color: white; /* Ensure the icon color matches */
+    margin: auto;
+    cursor: pointer; /* Make it clickable */
 }

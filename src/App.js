@@ -37,31 +37,54 @@ const App = () => {
   const { graphData } = useGraphData();
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+<<<<<<< Updated upstream
   const [rotationSpeed, setRotationSpeed] = useState(0.01);
+=======
+  const [rotationSpeed] = useState(0.01);
+  const [graphData, setGraphData] = useState(null);
+  const [isPaused, setPaused] = useState(false);
+  const [currentAngle, setCurrentAngle] = useState(0); // State to track the current angle
+  const graphRef = useRef();
+>>>>>>> Stashed changes
 
   const fakeData = generateFakeData(250, 500);
-  const graphRef = useRef();
-  let angle = 0;
 
   const rotateGraph = () => {
-    if (graphRef.current) {
-      graphRef.current.scene().rotation.y = angle;
-      angle += rotationSpeed;
+    if (graphRef.current && !isPaused) {
+      // Use the functional form of setCurrentAngle to ensure we have the latest value
+      setCurrentAngle(prevAngle => {
+        const newAngle = prevAngle + rotationSpeed; // Calculate the new angle
+        graphRef.current.scene().rotation.y = newAngle; // Set the rotation
+        return newAngle; // Return the new angle to update the state
+      });
     }
   };
 
   const resetCameraPosition = () => {
     if (graphRef.current) {
       graphRef.current.cameraPosition(
-          { x: 0, y: 0, z: 1000 },
-          { x: 0, y: 0, z: 0 },
-          3000
+        { x: 0, y: 0, z: 1000 },
+        { x: 0, y: 0, z: 0 },
+        3000
       );
     }
-  }
+  };
+
+  const pauseRotation = () => {
+    setPaused(prev => {
+      if (!prev) {
+        // If we are unpausing, set the graph to the current angle
+        if (graphRef.current) {
+          graphRef.current.scene().rotation.y = currentAngle; // Set the rotation to the last angle
+        }
+      }
+      return !prev; // Toggle the paused state
+    });
+  };
 
   useEffect(() => {
     if (graphRef.current) {
+      // Set the initial camera position when the component mounts
       graphRef.current.cameraPosition(
         { x: 0, y: 0, z: 800 },
         { x: 0, y: 0, z: 0 },
@@ -69,19 +92,32 @@ const App = () => {
       );
     }
 
+<<<<<<< Updated upstream
     const interval = setInterval(rotateGraph, 10);
     return () => clearInterval(interval);
   },);
+=======
+    // Only set the interval if not paused
+    let interval;
+    if (!isPaused) {
+      interval = setInterval(rotateGraph, 10);
+    }
+
+    return () => {
+      clearInterval(interval); // Clear the interval on cleanup
+    };
+  }, [isPaused]); // Add isPaused as a dependency
+>>>>>>> Stashed changes
 
   const handleLogin = () => {
     setIsLoggedIn(true);
-    setRotationSpeed(0);
-  }
+  };
 
   return (
     <div className={'page'}>
       <div style={{ position: 'relative' }}>
         <ForceGraph3D
+<<<<<<< Updated upstream
             ref={graphRef}
             graphData={graphData ? (graphData) : (fakeData)}
             nodeId="id"
@@ -91,9 +127,20 @@ const App = () => {
             enableNavigationControls={isLoggedIn}
             nodeOpacity={1}
             nodeRelSize={2}
+=======
+          ref={graphRef}
+          graphData={isLoggedIn ? (graphData) : (fakeData)}
+          nodeId="id"
+          nodeAutoColorBy={"id"}
+          nodeLabel={node => `${node.name}`}
+          showNavInfo={false}
+          enableNavigationControls={isLoggedIn}
+          nodeOpacity={1}
+          nodeRelSize={2}
+>>>>>>> Stashed changes
         />
         {!isLoggedIn && <div className={"startup"}>
-          <Startup onLogin={handleLogin}/>
+          <Startup onLogin={handleLogin} />
         </div>}
         <div className={'dot'}>.</div>
         {isLoggedIn && <div>
@@ -104,11 +151,14 @@ const App = () => {
             <NavBarLeft />
           </div>
           <div className={'position-controls'}>
-            <PositionControls resetCamera={resetCameraPosition}/>
+            <PositionControls 
+              resetCamera={resetCameraPosition} 
+              pause={pauseRotation}
+            />
           </div>
         </div>}
       </div>
-      <ToastContainer position="top-center"/>
+      <ToastContainer position="top-center" />
       <FakeComponent />
     </div>
   );
