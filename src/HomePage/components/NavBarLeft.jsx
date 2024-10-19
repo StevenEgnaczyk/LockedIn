@@ -36,9 +36,7 @@ const NavBarLeft = () => {
                             <button type="button"  className={"search-button"}>🔍</button>
                         </form>
                     </div>
-
                 </div>
-
             )};
 
         </div>
