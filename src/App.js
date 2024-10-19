@@ -9,6 +9,7 @@ import UserGraph from './Graphs/UserGraph';
 import UploadBar from "./HomePage/components/UploadBar";
 import { toast, ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
+import FakeComponent from "./HomePage/components/FakeComponent";
 
 const generateFakeData = (nodeCount = 10, linkCount = 15) => {
   const nodes = Array.from({ length: nodeCount }, (_, i) => ({
@@ -80,6 +81,7 @@ const App = () => {
         <UploadBar />
       </div>
       <ToastContainer position="top-center"/>
+      <FakeComponent />
     </div>
   );
 }
