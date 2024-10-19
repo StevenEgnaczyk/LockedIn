@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { firestore } from '../../index';
+import { firestore, auth } from '../../index';  // Importing firestore and auth
 import { collection, getDocs } from 'firebase/firestore'; 
 import Papa from 'papaparse';  // Import PapaParse for CSV export
 
@@ -8,9 +8,10 @@ const UserMerge = () => {
   const [selectedUsers, setSelectedUsers] = useState([]);
   const [mergedData, setMergedData] = useState(null);
   const [mutualConnections, setMutualConnections] = useState([]);
-  const [allConnections, setAllConnections] = useState([]);  // Store all connection names here
+  const [allConnections, setAllConnections] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [activeUser, setActiveUser] = useState(null); 
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -31,8 +32,32 @@ const UserMerge = () => {
       }
     };
 
+    const fetchActiveUser = () => {
+      const user = auth.currentUser;  // Get the current user
+      if (user) {
+        setActiveUser(user.uid); // Set the active user's UID
+      }
+    };
+
     fetchUsers();
+    fetchActiveUser();
   }, []);
+
+  useEffect(() => {
+    if (activeUser) {
+      // Select the active user by their UID and check if they are in the user list
+      const selectedActiveUser = users.find(user => user.uid === activeUser);
+      if (selectedActiveUser) {
+        setSelectedUsers(prevSelected => {
+          // Ensure the active user is checked
+          if (!prevSelected.includes(selectedActiveUser.id)) {
+            return [...prevSelected, selectedActiveUser.id];
+          }
+          return prevSelected;
+        });
+      }
+    }
+  }, [activeUser, users]);
 
   const handleCheckboxChange = (userId) => {
     setSelectedUsers(prevSelected => 
@@ -56,41 +81,13 @@ const UserMerge = () => {
     let commonIds = new Set(selectedUserData[0].connectionIds);
 
     for (let i = 1; i < selectedUserData.length; i++) {
-        const currentConnectionIds = new Set(selectedUserData[i].connectionIds);
-        commonIds = new Set([...commonIds].filter(id => currentConnectionIds.has(id)));
-        if (commonIds.size === 0) {
-            break;
-        }
-    }
-    return Array.from(commonIds); // Return as array
-  };
-
-  const findLinks = (selectedUserData) => {
-    const links = [];
-    
-    // For each pair of users, check if they have any mutual connections
-    for (let i = 0; i < selectedUserData.length - 1; i++) {
-      const userA = selectedUserData[i];
-
-      for (let j = i + 1; j < selectedUserData.length; j++) {
-        const userB = selectedUserData[j];
-
-        // Check if they share any mutual connection IDs
-        const mutualConnections = userA.connectionIds.filter(id => userB.connectionIds.includes(id));
-
-        console.log("Mutual Connections", mutualConnections);
-
-        // If there are mutual connections, create links between the users
-        if (mutualConnections.length > 0) {
-          links.push({
-            source: userA.id,
-            target: userB.id
-          });
-        }
+      const currentConnectionIds = new Set(selectedUserData[i].connectionIds);
+      commonIds = new Set([...commonIds].filter(id => currentConnectionIds.has(id)));
+      if (commonIds.size === 0) {
+        break;
       }
     }
-
-    return links;
+    return Array.from(commonIds); // Return as array
   };
 
   const fetchAllConnections = async () => {
@@ -100,19 +97,6 @@ const UserMerge = () => {
       id: doc.id,
       ...doc.data()
     }));
-  };
-
-  const exportToCSV = (data, filename) => {
-    const csv = Papa.unparse(data);
-    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-    const link = document.createElement('a');
-    const url = URL.createObjectURL(blob);
-    link.setAttribute('href', url);
-    link.setAttribute('download', filename);
-    link.style.visibility = 'hidden';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
   };
 
   const exportToJSON = (jsonObject, filename) => {
@@ -132,11 +116,6 @@ const UserMerge = () => {
     const mutualConnectionsList = findMutualConnections(selectedUserData);
     const allConnectionsList = findAllConnections(selectedUserData);
     const allConnectionData = await fetchAllConnections();
-
-    console.log("Selected Users", selectedUserData);
-    console.log("All Connections", allConnectionsList);
-    console.log("Mutual Connections", mutualConnectionsList);
-
 
     setMutualConnections(mutualConnectionsList);
 
@@ -164,7 +143,12 @@ const UserMerge = () => {
       .filter(conn => allConnectionsList.includes(conn.id))
       .map(conn => ({
         id: conn.id,
-        name: `${conn.first_name} ${conn.last_name}`  // Combine first and last names
+        name: `${conn.first_name} ${conn.last_name}`,
+        profile_url: `${conn.url}`,
+        company: `${conn.company}`,
+        connected_on: `${conn.connected_on}`,
+        position: `${conn.position}`,
+        email: `${conn.email_address}`,
       }));
 
     // Add selected users to nodes as well
@@ -175,8 +159,6 @@ const UserMerge = () => {
 
     // Merge selected users into nodes
     const allNodes = [...new Map([...selectedNodes, ...nodes].map(item => [item.id, item])).values()];
-
-    console.log("All Nodes", allNodes);
 
     // Prepare links for the JSON structure
     const links = [];
