@@ -6,22 +6,22 @@
     gap: 2rem;
     justify-content: center;
     align-items: center;
-    width: 5vw;
+    width: 10vw;
 }
 .center-icon {
-    scale: 2;
+    scale: 1.5;
     color: white;
     margin: auto;
     cursor: pointer;
 }
 .refresh-icon {
-    scale: 2;
+    scale: 1.5;
     color: white;
     margin: auto;
     cursor: pointer;
 }
 .pause-icon {
-    scale: 1.2; /* Adjust scale as needed */
+    scale: 1.5; /* Adjust scale as needed */
     color: white; /* Ensure the icon color matches */
     margin: auto;
     cursor: pointer; /* Make it clickable */

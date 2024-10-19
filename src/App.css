@@ -43,5 +43,5 @@
   position: absolute;
   z-index: 10000;
   bottom: 0;
-  right: calc(50% - 5vw - 1rem);
+  right: calc(50% - 10vw - 1rem);
 }
