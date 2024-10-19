@@ -4,6 +4,7 @@ import {Button} from "@nextui-org/react";
 import { BsChevronDoubleRight, BsChevronDoubleLeft } from "react-icons/bs";
 
 import './NavBarLeft.css'
+import ProfileRow from "./ProfileRow";
 
 const NavBarLeft = () => {
 
@@ -24,7 +25,6 @@ const NavBarLeft = () => {
                     <div className={'top-row'}>
                         <form className={"search-bar"}>
                             <input
-                                className={"search-bar"}
                                 type="text"
                                 placeholder="Search..." // Added placeholder
                                 onFocus={(e) => e.target.placeholder = ''} // Clear placeholder on focus
@@ -36,7 +36,26 @@ const NavBarLeft = () => {
                             <BsChevronDoubleLeft className={'icon'} onClick={openNavbar}/>
                         </div>
                     </div>
-
+                    <div className={'search-content'}>
+                        <ProfileRow />
+                        <ProfileRow />
+                        <ProfileRow />
+                        <ProfileRow />
+                        <ProfileRow />
+                        <ProfileRow />
+                        <ProfileRow />
+                        <ProfileRow />
+                        <ProfileRow />
+                        <ProfileRow />
+                        <ProfileRow />
+                        <ProfileRow />
+                        <ProfileRow />
+                        <ProfileRow />
+                        <ProfileRow />
+                        <ProfileRow />
+                        <ProfileRow />
+                        <ProfileRow />
+                    </div>
                 </div>
             )};
 

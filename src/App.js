@@ -65,6 +65,7 @@ const App = () => {
                 enableNodeDrag={false}
                 showNavInfo={false}
                 enableNavigationControls={false}
+                enablePointerInteraction={false}
             />
             <div className={"navbar"} >
                 <NavBarLeft/>
