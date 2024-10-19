@@ -4,7 +4,7 @@ import {Input} from "@nextui-org/input";
 
 import './Startup.css';
 
-const Signup = () => {
+const Signup = ({onLogin}) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 

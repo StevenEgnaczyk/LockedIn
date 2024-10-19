@@ -1,10 +1,8 @@
 import './App.css';
-import React, { useEffect, useRef } from "react";
+import React, {useEffect, useRef, useState} from "react";
 import ForceGraph3D from "react-force-graph-3d";
 import NavBarLeft from "./HomePage/components/NavBarLeft";
 import Startup from "./HomePage/components/Startup";
-import FileUpload from './HomePage/components/FileUpload';
-import UserMerge from './HomePage/components/UserMerge';
 import UploadBar from "./HomePage/components/UploadBar";
 
 const generateFakeData = (nodeCount = 10, linkCount = 15) => {
@@ -56,6 +54,12 @@ const App = () => {
     return () => clearInterval(interval); // Clean up the interval on component unmount
   }, []);
 
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  const handleLogin = () => {
+    setIsLoggedIn(true);
+  }
+
   return (
     <div style={{ position: 'relative' }}>
       <ForceGraph3D
@@ -69,9 +73,11 @@ const App = () => {
       <div className={"navbar"}>
         <NavBarLeft />
       </div>
-      <div className={"startup"}>
-        <Startup />
-      </div>
+
+
+      {!isLoggedIn && <div className={"startup"}>
+        <Startup onLogin={handleLogin}/>
+      </div>}
       <div className={'dot'}>.</div>
       <div className={"upload-bar"}>
         <UploadBar />

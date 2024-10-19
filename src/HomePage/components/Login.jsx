@@ -4,9 +4,13 @@ import {Input} from "@nextui-org/input";
 
 import './Startup.css';
 
-const Login = () => {
+const Login = ({onLogin}) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+
+    const handleLogin = () => {
+        onLogin();
+    };
 
     return (
         <div className="auth-container">
@@ -22,8 +26,8 @@ const Login = () => {
                     placeholder="Password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}/>
-                <div className={'button'}>
-                    <span className={'text'}>Login</span>
+                <div className={'button'} onClick={handleLogin}>
+                    <span className={'text'} >Login</span>
                 </div>
             </form>
         </div>

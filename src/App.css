@@ -35,5 +35,5 @@
   position: absolute;
   z-index: 100;
   top:0;
-  right:0;
+  right: calc(10% + 1rem);
 }
