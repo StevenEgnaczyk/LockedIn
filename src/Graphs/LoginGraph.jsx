@@ -1,5 +1,8 @@
 import React, { useEffect, useRef } from "react";
 import ForceGraph3D from "react-force-graph-3d";
+import {Button} from "@nextui-org/react"; 
+import{BsArrowRepeat} from "react-icons/bs";
+import './LoginGraph'
 
 const generateFakeData = (nodeCount = 10, linkCount = 15) => {
     const nodes = Array.from({ length: nodeCount }, (_, i) => ({
@@ -37,11 +40,21 @@ const LoginGraph = () => {
         }
     };
 
+    const resetCameraPosition = () => {
+        if (graphRef.current) {
+            graphRef.current.cameraPosition(
+                { x: 0, y: 0, z: 1000 },  
+                { x: 0, y: 0, z: 0 },     
+                3000                       
+            );
+        }
+    };
+
     useEffect(() => {
         // Set the camera distance to 300
         if (graphRef.current) {
             graphRef.current.cameraPosition(
-                { x: 0, y: 0, z: 800 },
+                { x: 0, y: 0, z: 1000 },
                 { x: 0, y: 0, z: 0 },
                 3000
             );
@@ -52,12 +65,17 @@ const LoginGraph = () => {
     }, []);
 
     return (
-        <ForceGraph3D
-            ref={graphRef}
-            graphData={fakeData}
-            nodeAutoColorBy={"id"}
-            enableNodeDrag={false}
-        />
+        <div style={{position: 'relative'}}>
+            <ForceGraph3D
+                ref={graphRef}
+                graphData={fakeData}
+                nodeAutoColorBy={"id"}
+                enableNodeDrag={false}
+            />
+              <Button className="reset-button" onClick={resetCameraPosition}>
+                <BsArrowRepeat className="icon" />
+            </Button>
+        </div>  
     );
 };
 

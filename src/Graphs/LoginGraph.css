@@ -1,3 +1,13 @@
 .login-graph {
-    width: 100vh;
+    position: relative;
+    width: 100vw; /* Full width */
+    height: 100vh; /* Full height */
+}
+
+.reset-button:hover {
+    background-color: darkred; /* Change on hover */
+}
+
+.icon {
+    transform: scale(1.5); /* Adjust icon size */
 }
