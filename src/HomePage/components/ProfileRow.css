@@ -12,6 +12,8 @@
     flex-direction: row;
     gap: 1rem;
     align-items: center;
+    cursor: pointer;
+    user-select: none;
 }
 
 .profile-pic {
