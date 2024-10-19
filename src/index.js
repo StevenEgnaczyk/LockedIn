@@ -10,8 +10,7 @@ import { initializeApp } from 'firebase/app';
 // Add the Firebase products and methods that you want to use
 import { getAuth } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
-import { getAnalytics } from "firebase/analytics";
-import * as firebaseui from 'firebaseui';
+import { GraphDataProvider } from './HomePage/components/GraphDataContext';
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -25,16 +24,17 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
 const auth = getAuth(app);
 const firestore = getFirestore(app);
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
+  <GraphDataProvider>
   <React.StrictMode>
     <App />
   </React.StrictMode>
+  </GraphDataProvider>
 );
 
 // If you want to start measuring performance in your app, pass a function

@@ -2,8 +2,8 @@
 import React, { useState } from 'react';
 import { firestore } from '../../index'; // Import the Firestore instance
 import { collection, doc, setDoc, getDocs, query, where } from 'firebase/firestore'; // Firestore functions
+import { getAuth } from 'firebase/auth'; // Import Firebase Authentication functions
 import Papa from 'papaparse'; // A library to parse CSV files
-
 import './FileUpload.css';
 
 const FileUpload = () => {
@@ -47,11 +47,17 @@ const FileUpload = () => {
         },
       }).data;
 
+      // Get the current user's UID from Firebase Authentication
+      const auth = getAuth();
+      const user = auth.currentUser; // Get the current user
+      const userId = user ? user.uid : null; // Get UID or null if not authenticated
+
       // Create a user object to hold connections' IDs
-      const user = {
+      const userObj = {
         connectionIds: [], // Store only the connection document IDs
         first_name: firstName,
         last_name: lastName,
+        uid: userId, // Add UID to the user object
       };
 
       // Loop through the parsed data and prepare connection entries
@@ -79,12 +85,12 @@ const FileUpload = () => {
             // If a matching document exists, update it
             const existingDocRef = querySnapshot.docs[0].ref; // Get the reference of the existing document
             await setDoc(existingDocRef, connection); // Update the existing document with new data
-            user.connectionIds.push(existingDocRef.id); // Add the connection's document ID to the user object
+            userObj.connectionIds.push(existingDocRef.id); // Add the connection's document ID to the user object
           } else {
             // If it's a new connection, add it to Firestore
             const connectionDocRef = doc(collection(firestore, 'connections'));
             await setDoc(connectionDocRef, connection); // Save the new connection object to Firestore
-            user.connectionIds.push(connectionDocRef.id); // Add the new connection's document ID to the user object
+            userObj.connectionIds.push(connectionDocRef.id); // Add the new connection's document ID to the user object
           }
 
         } catch (error) {
@@ -92,17 +98,17 @@ const FileUpload = () => {
         }
       }
 
-      // Create or clear the user's connectionIds and add first and last name
+      // Create or clear the user's connectionIds and add first, last name, and UID
       const userDocRef = doc(collection(firestore, 'people')); // Get reference to user document
       await setDoc(userDocRef, { 
-        ...user, 
-        first_name: user.first_name, 
-        last_name: user.last_name 
+        ...userObj, 
+        first_name: userObj.first_name, 
+        last_name: userObj.last_name 
       }); // Reset connectionIds for the user
 
       // Finally, update the user document with the new list of connection IDs
       try {
-        await setDoc(userDocRef, user); // Save the user object with updated connection IDs
+        await setDoc(userDocRef, userObj); // Save the user object with updated connection IDs
       } catch (error) {
         console.error('Error adding user document: ', error);
       }
@@ -121,28 +127,30 @@ const FileUpload = () => {
     reader.readAsText(file); // Read the file as text
   };
 
-
   return (
     <div className={'input-container'}>
-      <input 
-        type="text" 
-        placeholder="First Name" 
-        value={firstName} 
-        onChange={(e) => setFirstName(e.target.value)} 
-      />
-      <input 
-        type="text" 
-        placeholder="Last Name" 
-        value={lastName} 
-        onChange={(e) => setLastName(e.target.value)} 
-      />
+      <h2>Upload Connections CSV File</h2>
+      <div className={'input-labels'}>
+        <input 
+          type="text" 
+          placeholder="First Name" 
+          value={firstName} 
+          onChange={(e) => setFirstName(e.target.value)} 
+        />
+        <input 
+          type="text" 
+          placeholder="Last Name" 
+          value={lastName} 
+          onChange={(e) => setLastName(e.target.value)} 
+        />
+      </div>
+      
       <input type="file" accept=".csv" onChange={handleFileUpload} />
       {file && (
         <button onClick={handleSubmit}>Submit</button>
       )}
     </div>
   );
-
 };
 
 export default FileUpload;

@@ -1,6 +1,65 @@
-
+/* FileUpload.css */
 .input-container {
     display: flex;
     flex-direction: column;
-    margin-inline: auto;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 400px; /* Set a maximum width for the container */
+    margin: 0 auto; /* Center the container horizontally */
+}
+
+h2 {
+    margin-bottom: 20px;
+    color: #333;
+    font-size: 24px;
+}
+
+.input-labels {
+    display: flex;
+    flex-direction: column;
+    width: 95%; /* Full width for inputs */
+    margin-bottom: 15px; /* Space below the inputs */
+}
+
+input[type="text"], input[type="file"] {
+    padding: 10px;
+    margin-bottom: 15px; /* Space between inputs */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px; /* Font size for inputs */
+    width: 90%; /* Full width for inputs */
+}
+
+input[type="text"]:focus {
+    border-color: #007bff; /* Blue border on focus */
+    outline: none; /* Remove default outline */
+}
+
+input[type="file"] {
+    padding: 10px; /* Padding for the file input */
+}
+
+button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff; /* Blue background */
+    color: white; /* White text */
+    font-size: 16px; /* Font size for button */
+    cursor: pointer; /* Pointer cursor on hover */
+    transition: background-color 0.3s; /* Smooth background transition */
+}
+
+button:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}
+
+button:disabled {
+    background-color: #ccc; /* Grey background when disabled */
+    cursor: not-allowed; /* Not allowed cursor */
 }
