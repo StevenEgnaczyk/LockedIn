@@ -6,10 +6,9 @@ import NavBarLeft from "./HomePage/components/NavBarLeft";
 import Startup from "./HomePage/components/Startup";
 import PositionControls from './HomePage/components/PositionControls'
 import UploadBar from "./HomePage/components/UploadBar";
-import { toast, ToastContainer } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 import FakeComponent from "./HomePage/components/FakeComponent";
-import { sendEmailVerification } from 'firebase/auth';
 
 const generateFakeData = (nodeCount = 10, linkCount = 15) => {
   const nodes = Array.from({ length: nodeCount }, (_, i) => ({
@@ -35,7 +34,7 @@ const generateFakeData = (nodeCount = 10, linkCount = 15) => {
 
 const App = () => {
 
-  const { graphData, setGraphData } = useGraphData();
+  const { graphData } = useGraphData();
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [rotationSpeed, setRotationSpeed] = useState(0.01);
@@ -72,7 +71,7 @@ const App = () => {
 
     const interval = setInterval(rotateGraph, 10);
     return () => clearInterval(interval);
-  }, []);
+  },);
 
   const handleLogin = () => {
     setIsLoggedIn(true);
