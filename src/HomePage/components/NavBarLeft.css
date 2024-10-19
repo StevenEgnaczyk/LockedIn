@@ -1,0 +1,17 @@
+
+.popout-button {
+    border: none;
+    padding: 1rem;
+    background-color: transparent;
+    color: white;
+    cursor: pointer;
+}
+
+.popout-button:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+.icon {
+    scale: 2;
+}
