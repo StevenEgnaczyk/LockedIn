@@ -72,12 +72,7 @@ const App = () => {
 
     const interval = setInterval(rotateGraph, 10);
     return () => clearInterval(interval);
-<<<<<<< HEAD
   },);
-=======
-  }, []);
-
->>>>>>> 3051ef5 (graph changes)
 
   const handleLogin = () => {
     setIsLoggedIn(true);
@@ -89,11 +84,7 @@ const App = () => {
       <div style={{ position: 'relative' }}>
         <ForceGraph3D
             ref={graphRef}
-<<<<<<< HEAD
             graphData={graphData ? (graphData) : (fakeData)}
-=======
-            graphData={isLoggedIn ? (graphData) : (fakeData)}
->>>>>>> 3051ef5 (graph changes)
             nodeId="id"
             nodeAutoColorBy={"id"}
             nodeLabel={node => `${node.name}`}
