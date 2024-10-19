@@ -35,6 +35,7 @@ const App = () => {
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [rotationSpeed, setRotationSpeed] = useState(0.01);
+  const [graphData, setGraphData] = useState(null);
 
   const fakeData = generateFakeData(250, 500);
   const graphRef = useRef();
@@ -46,6 +47,21 @@ const App = () => {
       angle += rotationSpeed;
     }
   };
+
+  useEffect(() => {
+    const fetchGraphData = async () => {
+      try {
+        // If the JSON file is local, you can use a fetch request
+        const response = await fetch('./connections_graph.json');  // Replace with actual path
+        const data = await response.json();
+        setGraphData(data);
+      } catch (error) {
+        console.error('Error loading graph data:', error);
+      }
+    };
+
+    fetchGraphData();
+  }, []);
 
   const resetCameraPosition = () => {
     if (graphRef.current) {
@@ -76,14 +92,12 @@ const App = () => {
     setRotationSpeed(0);
   }
 
-  const realData = generateFakeData(10, 10);
-
   return (
     <div className={'page'}>
       <div style={{ position: 'relative' }}>
         <ForceGraph3D
           ref={graphRef}
-          graphData={isLoggedIn ? (realData) : (fakeData)}
+          graphData={isLoggedIn ? (graphData) : (fakeData)}
           nodeId="id"
           nodeLabel={node => `${node.name}`} // Display the name on hover
           linkDirectionalArrowLength={5}
