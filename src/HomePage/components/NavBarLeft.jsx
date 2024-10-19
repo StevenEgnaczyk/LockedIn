@@ -22,9 +22,6 @@ const NavBarLeft = () => {
             ) : (
                 <div className={"open-navbar"}>
                     <div className={'top-row'}>
-                        <div className={"popout-button"}>
-                            <BsChevronDoubleLeft className={'icon'} onClick={openNavbar}/>
-                        </div>
                         <form className={"search-bar"}>
                             <input
                                 className={"search-bar"}
@@ -35,7 +32,11 @@ const NavBarLeft = () => {
                             />
                             <button type="button"  className={"search-button"}>🔍</button>
                         </form>
+                        <div className={"popout-button"}>
+                            <BsChevronDoubleLeft className={'icon'} onClick={openNavbar}/>
+                        </div>
                     </div>
+
                 </div>
             )};
 
