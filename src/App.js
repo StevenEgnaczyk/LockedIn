@@ -3,6 +3,8 @@ import React, { useEffect, useRef } from "react";
 import ForceGraph3D from "react-force-graph-3d";
 import NavBarLeft from "./HomePage/components/NavBarLeft";
 import Startup from "./HomePage/components/Startup";
+import FileUpload from './HomePage/components/FileUpload';
+import UserMerge from './HomePage/components/UserMerge';
 
 const generateFakeData = (nodeCount = 10, linkCount = 15) => {
     const nodes = Array.from({ length: nodeCount }, (_, i) => ({
@@ -70,7 +72,8 @@ const App = () => {
                 <Startup />
             </div>
             <div className={'dot'}>.</div>
-
+            <FileUpload />
+            <UserMerge />
         </div>
     );};
 
