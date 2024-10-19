@@ -60,11 +60,13 @@ const App = () => {
     setIsLoggedIn(true);
   }
 
+  const realData = generateFakeData(10, 10);
+
   return (
     <div style={{ position: 'relative' }}>
       <ForceGraph3D
         ref={graphRef}
-        graphData={fakeData}
+        graphData={isLoggedIn ? (realData) : (fakeData)}
         nodeId="id"
         nodeLabel={node => `${node.name}`} // Display the name on hover
         linkDirectionalArrowLength={5}
@@ -73,8 +75,6 @@ const App = () => {
       <div className={"navbar"}>
         <NavBarLeft />
       </div>
-
-
       {!isLoggedIn && <div className={"startup"}>
         <Startup onLogin={handleLogin}/>
       </div>}
