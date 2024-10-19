@@ -9,6 +9,9 @@ const UserMerge = () => {
   const { setGraphData } = useGraphData();  // Get the setGraphData function from the custom hook
   const [users, setUsers] = useState([]);
   const [selectedUsers, setSelectedUsers] = useState([]);
+  const [mergedData, setMergedData] = useState(null);
+  const [mutualConnections, setMutualConnections] = useState([]);
+  const [allConnections, setAllConnections] = useState([]);  // Store all connection names here
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [activeUser, setActiveUser] = useState(null); 
@@ -77,6 +80,47 @@ const UserMerge = () => {
     return Array.from(allConnections);
   };
 
+  const findMutualConnections = (selectedUserData) => {
+    let commonIds = new Set(selectedUserData[0].connectionIds);
+
+    for (let i = 1; i < selectedUserData.length; i++) {
+        const currentConnectionIds = new Set(selectedUserData[i].connectionIds);
+        commonIds = new Set([...commonIds].filter(id => currentConnectionIds.has(id)));
+        if (commonIds.size === 0) {
+            break;
+        }
+    }
+    return Array.from(commonIds); // Return as array
+  };
+
+  const findLinks = (selectedUserData) => {
+    const links = [];
+    
+    // For each pair of users, check if they have any mutual connections
+    for (let i = 0; i < selectedUserData.length - 1; i++) {
+      const userA = selectedUserData[i];
+
+      for (let j = i + 1; j < selectedUserData.length; j++) {
+        const userB = selectedUserData[j];
+
+        // Check if they share any mutual connection IDs
+        const mutualConnections = userA.connectionIds.filter(id => userB.connectionIds.includes(id));
+
+        console.log("Mutual Connections", mutualConnections);
+
+        // If there are mutual connections, create links between the users
+        if (mutualConnections.length > 0) {
+          links.push({
+            source: userA.id,
+            target: userB.id
+          });
+        }
+      }
+    }
+
+    return links;
+  };
+
   const fetchAllConnections = async () => {
     const connectionsCollection = collection(firestore, 'connections');
     const connectionsSnapshot = await getDocs(connectionsCollection);
@@ -86,10 +130,42 @@ const UserMerge = () => {
     }));
   };
 
+  const exportToCSV = (data, filename) => {
+    const csv = Papa.unparse(data);
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    const url = URL.createObjectURL(blob);
+    link.setAttribute('href', url);
+    link.setAttribute('download', filename);
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  const exportToJSON = (jsonObject, filename) => {
+    const jsonBlob = new Blob([JSON.stringify(jsonObject, null, 2)], { type: 'application/json' });
+    const link = document.createElement('a');
+    const url = URL.createObjectURL(jsonBlob);
+    link.setAttribute('href', url);
+    link.setAttribute('download', filename);
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   const generateGraph = async () => {
     const selectedUserData = users.filter(user => selectedUsers.includes(user.id));
     const allConnectionsList = findAllConnections(selectedUserData);
     const allConnectionData = await fetchAllConnections();
+
+    console.log("Selected Users", selectedUserData);
+    console.log("All Connections", allConnectionsList);
+    console.log("Mutual Connections", mutualConnectionsList);
+
+
+    setMutualConnections(mutualConnectionsList);
 
     const mergedFields = {};
     selectedUserData.forEach(user => {
