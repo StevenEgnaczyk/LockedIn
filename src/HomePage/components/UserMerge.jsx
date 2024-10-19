@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { firestore } from '../../index';
 import { collection, getDocs } from 'firebase/firestore'; 
 import Papa from 'papaparse';  // Import PapaParse for CSV export
+import { getFirestore, collection, query, where, getDocs, doc, getDoc } from 'firebase/firestore'; 
+import Papa from 'papaparse';  // Import PapaParse for CSV export
 
 const UserMerge = () => {
   const [users, setUsers] = useState([]);
@@ -52,6 +54,16 @@ const UserMerge = () => {
     return Array.from(allConnections);
   };
 
+  const findAllConnections = (selectedUserData) => {
+    const allConnections = new Set();
+
+    selectedUserData.forEach(user => {
+      user.connectionIds.forEach(id => allConnections.add(id));
+    });
+
+    return Array.from(allConnections);
+  };
+
   const findMutualConnections = (selectedUserData) => {
     let commonIds = new Set(selectedUserData[0].connectionIds);
 
@@ -84,8 +96,41 @@ const UserMerge = () => {
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+    let commonIds = new Set(selectedUserData[0].connectionIds);
+
+    for (let i = 1; i < selectedUserData.length; i++) {
+        const currentConnectionIds = new Set(selectedUserData[i].connectionIds);
+        commonIds = new Set([...commonIds].filter(id => currentConnectionIds.has(id)));
+        if (commonIds.size === 0) {
+            break;
+        }
+    }
+    return Array.from(commonIds); // Return as array
   };
 
+  const fetchAllConnections = async () => {
+    const connectionsCollection = collection(firestore, 'connections');
+    const connectionsSnapshot = await getDocs(connectionsCollection);
+    return connectionsSnapshot.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data()
+    }));
+  };
+
+  const exportToCSV = (data, filename) => {
+    const csv = Papa.unparse(data);
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    const url = URL.createObjectURL(blob);
+    link.setAttribute('href', url);
+    link.setAttribute('download', filename);
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  const generateGraph = async () => {
   const generateGraph = async () => {
     const selectedUserData = users.filter(user => selectedUsers.includes(user.id));
     const mutualConnectionsList = findMutualConnections(selectedUserData);
@@ -95,6 +140,13 @@ const UserMerge = () => {
     // Logging for debugging
     console.log("Mutual Connections: ", mutualConnectionsList);
     console.log("All Connections Data: ", allConnectionData);
+
+    const allConnectionsList = findAllConnections(selectedUserData);
+    const allConnectionData = await fetchAllConnections();
+    
+    // Logging for debugging
+    console.log("All Connections Data: ", allConnectionData.length);
+    console.log("Mutual Connections: ", mutualConnectionsList);
 
     setMutualConnections(mutualConnectionsList);
 
@@ -137,6 +189,21 @@ const UserMerge = () => {
 
     // Export the JSON object
     exportToJSON(graphData, 'connections_graph.json');
+
+    // Prepare data for CSV export
+    const uniqueConnectionsData = allConnectionsList.map(connectionId => {
+      const connection = allConnectionData.find(c => c.id === connectionId);
+      return { connectionId, ...connection };
+    });
+
+    const mutualConnectionsData = mutualConnectionsList.map(connectionId => {
+      const connection = allConnectionData.find(c => c.id === connectionId);
+      return { connectionId, ...connection };
+    });
+
+    // Export both lists to CSV
+    exportToCSV(uniqueConnectionsData, 'unique_connections.csv');
+    exportToCSV(mutualConnectionsData, 'mutual_connections.csv');
   };
 
   if (isLoading) {
@@ -167,6 +234,8 @@ const UserMerge = () => {
       ))}
       <button onClick={generateGraph} disabled={selectedUsers.length < 2}>
         Find Mutual Connections and Generate Graph
+      <button onClick={generateGraph} disabled={selectedUsers.length < 2}>
+        Find Mutual Connections and Merge Data
       </button>
     </div>
   );
