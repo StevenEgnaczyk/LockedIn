@@ -54,8 +54,7 @@ const App = () => {
   useEffect(() => {
     const fetchGraphData = async () => {
       try {
-        // If the JSON file is local, you can use a fetch request
-        const response = await fetch('./connections_graph.json');  // Replace with actual path
+        const response = await fetch('./connections_graph.json');
         const data = await response.json();
         setGraphData(data);
       } catch (error) {
@@ -87,7 +86,12 @@ const App = () => {
 
     const interval = setInterval(rotateGraph, 10);
     return () => clearInterval(interval);
+<<<<<<< HEAD
   },);
+=======
+  }, []);
+
+>>>>>>> 3051ef5 (graph changes)
 
   const handleLogin = () => {
     setIsLoggedIn(true);
@@ -99,7 +103,11 @@ const App = () => {
       <div style={{ position: 'relative' }}>
         <ForceGraph3D
             ref={graphRef}
+<<<<<<< HEAD
             graphData={graphData ? (graphData) : (fakeData)}
+=======
+            graphData={isLoggedIn ? (graphData) : (fakeData)}
+>>>>>>> 3051ef5 (graph changes)
             nodeId="id"
             nodeAutoColorBy={"id"}
             nodeLabel={node => `${node.name}`}
