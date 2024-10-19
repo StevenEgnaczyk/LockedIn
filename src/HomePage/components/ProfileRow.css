@@ -1,0 +1,25 @@
+
+* {
+    margin: 0;
+}
+
+.profile-row {
+    background-color: #999999;
+    padding: 1rem;
+    margin: 4px;
+    border-radius: 1rem;
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    align-items: center;
+}
+
+.profile-pic {
+    max-height: 50px;
+    border-radius: 50%;
+}
+
+.user-text {
+    display: flex;
+    flex-direction: column;
+}

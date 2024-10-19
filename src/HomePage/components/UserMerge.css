@@ -1,0 +1,46 @@
+/* src/HomePage/components/UserMerge.css */
+
+.user-merge-container {
+    border-radius: 10px;
+    padding: 1rem;
+    color: white;
+}
+
+.user-merge-header {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.user-checkbox {
+    margin: 10px 0;
+}
+
+.mutual-connections {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #e0f7fa; /* Light blue background for mutual connections */
+    border-radius: 5px;
+}
+
+.merged-data {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #e8f5e9; /* Light green background for merged data */
+    border-radius: 5px;
+}
+
+button {
+    border: none;
+    border-radius: 5px;
+    padding: 0.5rem 1rem;
+    background-color: #007bff; /* Bootstrap primary color */
+    color: white;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+button:disabled {
+    background-color: #ccc; /* Grey out disabled button */
+    cursor: not-allowed;
+}
+

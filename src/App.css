@@ -18,7 +18,7 @@
 
 .startup {
   position: absolute;
-  z-index: 100;
+
   top: calc(50% - 14vh);
   left: calc(50% - 28vh);
 }
@@ -29,4 +29,11 @@
   top: 50%;
   left: 50%;
   z-index:1000 ;
+}
+
+.upload-bar {
+  position: absolute;
+  z-index: 100;
+  top:0;
+  right:0;
 }

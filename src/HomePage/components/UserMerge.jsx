@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { firestore } from '../../index';
 import { collection, getDocs } from 'firebase/firestore';
+import './UserMerge.css';
 
 const UserMerge = () => {
   const [users, setUsers] = useState([]);
@@ -14,7 +15,7 @@ const UserMerge = () => {
     const fetchUsers = async () => {
       try {
         setIsLoading(true);
-        const usersCollection = collection(firestore, 'linkedin_data');
+        const usersCollection = collection(firestore, 'people');
         const userSnapshot = await getDocs(usersCollection);
         const userList = userSnapshot.docs.map(doc => ({
           id: doc.id,
@@ -97,10 +98,10 @@ const UserMerge = () => {
   }
 
   return (
-    <div>
-      <h2>Select Users to Merge</h2>
+    <div className="user-merge-container">
+      <h2 className="user-merge-header">Select Users to Merge</h2>
       {users.map(user => (
-        <div key={user.id}>
+        <div key={user.id} className="user-checkbox">
           <input
             type="checkbox"
             id={user.id}
@@ -114,7 +115,7 @@ const UserMerge = () => {
         Find Mutual Connections and Merge Data
       </button>
       {mutualConnections.length > 0 ? (
-        <div>
+        <div className="mutual-connections">
           <h3>Mutual Connections:</h3>
           <ul>
             {mutualConnections.map(user => (
@@ -126,7 +127,7 @@ const UserMerge = () => {
         selectedUsers.length >= 2 && <div>No mutual connections found.</div>
       )}
       {mergedData && (
-        <div>
+        <div className="merged-data">
           <h3>Merged Data of Selected Users:</h3>
           <pre>{JSON.stringify(mergedData, null, 2)}</pre>
         </div>
