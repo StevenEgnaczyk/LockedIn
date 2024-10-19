@@ -1,19 +1,16 @@
 import React from "react";
+import './ProfileRow.css';
 
-import './ProfileRow.css'
-
-const ProfileRow = () => {
-
-
+const ProfileRow = ({ name, company, position }) => {
     return (
         <div className={'profile-row'}>
-            <img className={'profile-pic'} src={'./profilePic.jpeg'}/>
             <div className={'user-text'}>
-                <h2>Name here</h2>
-                <p>desc or something</p>
+                <h2>{name}</h2>
+                <p>Company: {company}</p>
+                <p>Position: {position}</p>
             </div>
         </div>
-    )
-}
+    );
+};
 
 export default ProfileRow;
