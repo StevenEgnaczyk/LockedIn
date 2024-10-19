@@ -1,16 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { firestore, auth } from '../../index';  // Importing firestore and auth
 import { collection, getDocs } from 'firebase/firestore'; 
-import Papa from 'papaparse';  // Import PapaParse for CSV export
 import { useGraphData } from './GraphDataContext';  // Import the custom hook
 
 const UserMerge = () => {
   const { setGraphData } = useGraphData();  // Get the setGraphData function from the custom hook
   const [users, setUsers] = useState([]);
   const [selectedUsers, setSelectedUsers] = useState([]);
-  const [mergedData, setMergedData] = useState(null);
-  const [mutualConnections, setMutualConnections] = useState([]);
-  const [allConnections, setAllConnections] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [activeUser, setActiveUser] = useState(null); 
@@ -79,19 +75,6 @@ const UserMerge = () => {
     return Array.from(allConnections);
   };
 
-  const findMutualConnections = (selectedUserData) => {
-    let commonIds = new Set(selectedUserData[0].connectionIds);
-
-    for (let i = 1; i < selectedUserData.length; i++) {
-      const currentConnectionIds = new Set(selectedUserData[i].connectionIds);
-      commonIds = new Set([...commonIds].filter(id => currentConnectionIds.has(id)));
-      if (commonIds.size === 0) {
-        break;
-      }
-    }
-    return Array.from(commonIds); // Return as array
-  };
-
   const fetchAllConnections = async () => {
     const connectionsCollection = collection(firestore, 'connections');
     const connectionsSnapshot = await getDocs(connectionsCollection);
@@ -101,25 +84,10 @@ const UserMerge = () => {
     }));
   };
 
-  const exportToJSON = (jsonObject, filename) => {
-    const jsonBlob = new Blob([JSON.stringify(jsonObject, null, 2)], { type: 'application/json' });
-    const link = document.createElement('a');
-    const url = URL.createObjectURL(jsonBlob);
-    link.setAttribute('href', url);
-    link.setAttribute('download', filename);
-    link.style.visibility = 'hidden';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  };
-
   const generateGraph = async () => {
     const selectedUserData = users.filter(user => selectedUsers.includes(user.id));
-    const mutualConnectionsList = findMutualConnections(selectedUserData);
     const allConnectionsList = findAllConnections(selectedUserData);
     const allConnectionData = await fetchAllConnections();
-
-    setMutualConnections(mutualConnectionsList);
 
     const mergedFields = {};
     selectedUserData.forEach(user => {
@@ -132,13 +100,6 @@ const UserMerge = () => {
         }
       });
     });
-
-    const finalMergedData = Object.keys(mergedFields).reduce((acc, key) => {
-      acc[key] = Array.from(mergedFields[key]);
-      return acc;
-    }, {});
-
-    setMergedData(finalMergedData);
 
     // Prepare nodes for the JSON structure
     const nodes = allConnectionData
