@@ -5,6 +5,12 @@ import NavBarLeft from "./HomePage/components/NavBarLeft";
 import Startup from "./HomePage/components/Startup";
 import UploadBar from "./HomePage/components/UploadBar";
 import PositionControls from './HomePage/components/PositionControls'
+import FileUpload from './HomePage/components/FileUpload';
+import UserMerge from './HomePage/components/UserMerge';
+import UserGraph from './Graphs/UserGraph';
+import UploadBar from "./HomePage/components/UploadBar";
+import { toast, ToastContainer } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
 
 const generateFakeData = (nodeCount = 10, linkCount = 15) => {
   const nodes = Array.from({ length: nodeCount }, (_, i) => ({
@@ -100,6 +106,7 @@ const App = () => {
           </div>
         </div>}
       </div>
+      <ToastContainer position="top-center"/>
     </div>
   );
 }

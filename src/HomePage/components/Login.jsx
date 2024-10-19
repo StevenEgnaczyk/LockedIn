@@ -1,16 +1,27 @@
 import React, { useState } from 'react';
-import { Button, ButtonGroup } from "@nextui-org/react";
 import {Input} from "@nextui-org/input";
+import {auth} from '../../index';
+import {toast} from 'react-toastify';
 
 import './Startup.css';
+import { signInWithEmailAndPassword } from 'firebase/auth';
 
 const Login = ({onLogin}) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    const handleLogin = () => {
-        onLogin();
-    };
+
+    const handleLogin = async (e) => {
+        e.preventDefault();
+
+        try {
+            await signInWithEmailAndPassword(auth, email, password);
+            toast.success("Logged in successfully");
+        } catch (error) {
+            console.error("Error signing in:", error);
+            toast.error("Failed to log in. Please check your credentials.");
+        }
+    }
 
     return (
         <div className="auth-container">
@@ -26,8 +37,8 @@ const Login = ({onLogin}) => {
                     placeholder="Password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}/>
-                <div className={'button'} onClick={handleLogin}>
-                    <span className={'text'} >Login</span>
+                <div className={'button'}>
+                    <span className={'text'} onClick={handleLogin}>Login</span>
                 </div>
             </form>
         </div>
