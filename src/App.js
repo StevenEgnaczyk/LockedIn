@@ -72,9 +72,6 @@ const App = () => {
       <div className={"startup"}>
         <Startup />
       </div>
-      <div className={"usermerge"}>
-        <UserMerge />
-      </div>
       <div className={'dot'}>.</div>
       <div className={"upload-bar"}>
         <UploadBar />
