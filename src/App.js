@@ -54,8 +54,7 @@ const App = () => {
   useEffect(() => {
     const fetchGraphData = async () => {
       try {
-        // If the JSON file is local, you can use a fetch request
-        const response = await fetch('./connections_graph.json');  // Replace with actual path
+        const response = await fetch('./connections_graph.json');
         const data = await response.json();
         setGraphData(data);
       } catch (error) {
