@@ -121,7 +121,7 @@ const UserMerge = () => {
     const csv = Papa.unparse(data);
     const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
     const link = document.createElement('a');
-    const url = URL.createObjectURL(blob);
+    const url = URL.createObjectURL(jsonBlob);
     link.setAttribute('href', url);
     link.setAttribute('download', filename);
     link.style.visibility = 'hidden';
@@ -143,10 +143,11 @@ const UserMerge = () => {
 
     const allConnectionsList = findAllConnections(selectedUserData);
     const allConnectionData = await fetchAllConnections();
-    
+
     // Logging for debugging
     console.log("All Connections Data: ", allConnectionData.length);
     console.log("Mutual Connections: ", mutualConnectionsList);
+    console.log("All Connections Data: ", allConnectionData);
 
     setMutualConnections(mutualConnectionsList);
 
