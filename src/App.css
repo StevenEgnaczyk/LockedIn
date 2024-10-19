@@ -30,3 +30,11 @@
   left: 50%;
   z-index:1000 ;
 }
+
+.usermerge {
+  position: absolute;
+  z-index: 100;
+
+  top:0;
+  right:0;
+}

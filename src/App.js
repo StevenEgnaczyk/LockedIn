@@ -73,7 +73,9 @@ const App = () => {
             </div>
             <div className={'dot'}>.</div>
             <FileUpload />
-            <UserMerge />
+            <div className={"usermerge"}>
+               <UserMerge />
+            </div>
         </div>
     );};
 
