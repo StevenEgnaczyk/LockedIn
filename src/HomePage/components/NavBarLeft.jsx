@@ -5,12 +5,13 @@ import { BsChevronDoubleRight, BsChevronDoubleLeft } from "react-icons/bs";
 
 import './NavBarLeft.css'
 import ProfileRow from "./ProfileRow";
+import ProfilePanel from "./ProfilePanel";
 
-const NavBarLeft = () => {
+const NavBarLeft = ({user}) => {
 
     const [isOpen, setOpen] = useState(false);
     const [resultCount, setResultCount] = useState(10); // Default to 10 results
-    const [profileOpen, setProfileOpen] = useState('false');
+    const [profileOpen, setProfileOpen] = useState(false);
     const maxResults = 25; // Maximum results
 
     const openNavbar = () => {
@@ -27,13 +28,17 @@ const NavBarLeft = () => {
         }
     }
 
-    const openProfile = () => {
-        setProfileOpen(!isOpen);
+    const openProfile = (user) => {
+        setProfileOpen(true);
+    }
+
+    const closeProfile = () => {
+        setProfileOpen(false);
     }
 
     // Sample data for demonstration (replace with actual data)
     const profileRows = Array.from({ length: 20 }, (_, index) => (
-        <ProfileRow key={index} onClick={openProfile}/>
+        <ProfileRow key={user} openProfile={() => openProfile(user)} user={user} />
     ));
 
     return (
@@ -44,7 +49,7 @@ const NavBarLeft = () => {
                 </Button>
             ) : (
                 <div className={"open-navbar"}>
-                    {profileOpen ? (
+                    {!profileOpen ? (
                         <div>
                             <div className={'top-row'}>
                                 <form className={"search-bar"}>
@@ -79,7 +84,8 @@ const NavBarLeft = () => {
                     ) : (
                         <div>
                             <div className={"popout-button"}>
-                                <BsChevronDoubleLeft className={'icon'} onClick={openProfile}/>
+                                <BsChevronDoubleLeft className={'icon'} onClick={closeProfile}/>
+                                <ProfilePanel />
                             </div>
                         </div>
                     )}

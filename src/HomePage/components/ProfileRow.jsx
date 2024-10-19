@@ -1,17 +1,23 @@
 import React from "react";
+import { BsCrosshair } from "react-icons/bs";
 
 import './ProfileRow.css'
 
-const ProfileRow = () => {
+const ProfileRow = ({openProfile, user}) => {
 
+    const focusNode = () => {
+
+    }
 
     return (
-        <div className={'profile-row'}>
-            <img className={'profile-pic'} src={'./profilePic.jpeg'}/>
+        <div className={'profile-row'} onClick={openProfile}>
             <div className={'user-text'}>
-                <h2>Name here</h2>
-                <p>desc or something</p>
+                <h2>name</h2>
+                <p>company</p>
+                <p>position</p>
             </div>
+            <BsCrosshair className={'go-to-icon'} onClick={focusNode}/>
+
         </div>
     )
 }
