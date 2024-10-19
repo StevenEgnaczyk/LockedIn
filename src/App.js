@@ -5,6 +5,7 @@ import NavBarLeft from "./HomePage/components/NavBarLeft";
 import Startup from "./HomePage/components/Startup";
 import FileUpload from './HomePage/components/FileUpload';
 import UserMerge from './HomePage/components/UserMerge';
+import UploadBar from "./HomePage/components/UploadBar";
 
 const generateFakeData = (nodeCount = 10, linkCount = 15) => {
     const nodes = Array.from({ length: nodeCount }, (_, i) => ({
@@ -72,9 +73,8 @@ const App = () => {
                 <Startup />
             </div>
             <div className={'dot'}>.</div>
-            <FileUpload />
-            <div className={"usermerge"}>
-               <UserMerge />
+            <div className={"upload-bar"}>
+                <UploadBar />
             </div>
         </div>
     );};

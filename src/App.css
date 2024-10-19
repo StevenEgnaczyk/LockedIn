@@ -18,7 +18,7 @@
 
 .startup {
   position: absolute;
-  z-index: 100;
+
   top: calc(50% - 14vh);
   left: calc(50% - 28vh);
 }
@@ -31,10 +31,9 @@
   z-index:1000 ;
 }
 
-.usermerge {
+.upload-bar {
   position: absolute;
   z-index: 100;
-
   top:0;
   right:0;
 }
