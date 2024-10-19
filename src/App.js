@@ -5,9 +5,10 @@ import NavBarLeft from "./HomePage/components/NavBarLeft";
 import Startup from "./HomePage/components/Startup";
 import PositionControls from './HomePage/components/PositionControls'
 import UploadBar from "./HomePage/components/UploadBar";
-import { toast, ToastContainer } from 'react-toastify';
+import {  ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 import FakeComponent from "./HomePage/components/FakeComponent";
+import NavBarRight from "./HomePage/components/NavBarRight";
 
 const generateFakeData = (nodeCount = 10, linkCount = 15) => {
   const nodes = Array.from({ length: nodeCount }, (_, i) => ({
@@ -94,10 +95,11 @@ const App = () => {
         </div>}
         <div className={'dot'}>.</div>
         {isLoggedIn && <div>
-          <div className={"upload-bar"}>
-            <UploadBar />
+          
+          <div className={"navbarright"}>
+            <NavBarRight />
           </div>
-          <div className={"navbar"}>
+          <div className={"navbarleft"}>
             <NavBarLeft />
           </div>
           <div className={'position-controls'}>
