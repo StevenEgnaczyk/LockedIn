@@ -5,6 +5,7 @@ import NavBarLeft from "./HomePage/components/NavBarLeft";
 import Startup from "./HomePage/components/Startup";
 import FileUpload from './HomePage/components/FileUpload';
 import UserMerge from './HomePage/components/UserMerge';
+import UserGraph from './Graphs/UserGraph';
 import UploadBar from "./HomePage/components/UploadBar";
 
 const generateFakeData = (nodeCount = 10, linkCount = 15) => {
