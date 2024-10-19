@@ -4,7 +4,6 @@
     padding: 1rem;
     background-color: transparent;
     color: white;
-    cursor: pointer;
 }
 
 .popout-button:focus {
@@ -13,5 +12,56 @@
 }
 
 .icon {
+    cursor: pointer;
     scale: 2;
 }
+
+.navbar-container {
+    margin: 1rem;
+}
+
+.open-navbar {
+    display: flex;
+    flex-direction: column;
+    margin: -1rem;
+    width: 40vh;
+    height: calc(100vh - 4rem);
+    background-color: #6666;
+    border-radius: 1rem;
+    padding: 1rem;
+}
+
+.top-row {
+    display: flex;
+    flex-direction: row;
+}
+
+.search-bar {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+}
+.search-bar input {
+    padding: 10px 20px 10px 10px;
+    border: 1px solid white;
+    border-radius: 0.5rem;
+    font-size: 16px;
+    width: calc(40vh - 16vh);
+}
+
+.search-button {
+    background-color: transparent; /* Bootstrap primary color */
+    color: white; /* Text color */
+    padding: 8px 12px; /* Padding for button */
+    margin-left: 4px; /* Space between input and button */
+    cursor: pointer; /* Pointer cursor on hover */
+    transition: background-color 0.3s; /* Smooth transition */
+    border: 1px solid white;
+    border-radius: 0.5rem;
+}
+
+.search-button:hover {
+    background-color: white; /* Darker shade on hover */
+}
+
+
