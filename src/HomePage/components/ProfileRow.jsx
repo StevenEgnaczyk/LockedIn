@@ -9,8 +9,6 @@ const ProfileRow = ({ name, company, position }) => {
                 <p>Company: {company}</p>
                 <p>Position: {position}</p>
             </div>
-            <BsCrosshair className={'go-to-icon'} onClick={focusNode}/>
-
         </div>
     );
 };

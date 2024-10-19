@@ -79,7 +79,6 @@ const NavBarLeft = () => {
                     ) : (
                         <div>
                             <div className={"popout-button"}>
-                                <BsChevronDoubleLeft className={'icon'} onClick={closeProfile}/>
                                 <ProfilePanel />
                             </div>
                         </div>
