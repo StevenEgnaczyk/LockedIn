@@ -16,11 +16,11 @@ const Login = ({onLogin}) => {
         try {
             await signInWithEmailAndPassword(auth, email, password);
             toast.success("Logged in successfully");
+            onLogin();
         } catch (error) {
             console.error("Error signing in:", error);
             toast.error("Failed to log in. Please check your credentials.");
         }
-        onLogin();
     }
 
     return (
