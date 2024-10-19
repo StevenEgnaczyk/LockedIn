@@ -9,7 +9,7 @@ import { auth } from '../../index';
 import './Startup.css';
 import firebase from 'firebase/compat/app';
 
-const Signup = () => {
+const Signup = ({onLogin}) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);

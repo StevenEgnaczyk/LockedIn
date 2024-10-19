@@ -5,7 +5,7 @@ import Signup from './Signup';
 
 import './Startup.css';
 
-const Startup = ({user, setUser}) => {
+const Startup = ({user, setUser, onLogin}) => {
 
     const [isSigningUp, setIsSigningUp] = useState(false); // State to toggle between Login and Signup
 
@@ -18,9 +18,9 @@ const Startup = ({user, setUser}) => {
             <div className="main-container">
                 <div className="auth-container">
                     {isSigningUp ? (
-                        <Signup setUser={setUser} />
+                        <Signup setUser={setUser} onLogin={onLogin}/>
                     ) : (
-                        <Login setUser={setUser} />
+                        <Login setUser={setUser} onLogin={onLogin}/>
                     )}
                     <button className={"swap-button"} onClick={toggleAuthMode}>
                         <span className={'swap-text'}>{isSigningUp ? "Already have an account? Login" : "Need an account? Sign up"}</span>
