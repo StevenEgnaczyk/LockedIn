@@ -4,6 +4,8 @@ import { firestore } from '../../index'; // Import the Firestore instance
 import { collection, doc, setDoc, getDocs, query, where } from 'firebase/firestore'; // Firestore functions
 import Papa from 'papaparse'; // A library to parse CSV files
 
+import './FileUpload.css';
+
 const FileUpload = () => {
   const [file, setFile] = useState(null);
   const [firstName, setFirstName] = useState(''); // State for first name input
@@ -121,7 +123,7 @@ const FileUpload = () => {
 
 
   return (
-    <div>
+    <div className={'input-container'}>
       <input 
         type="text" 
         placeholder="First Name" 

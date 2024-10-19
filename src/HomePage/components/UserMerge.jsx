@@ -220,10 +220,10 @@ const UserMerge = () => {
   }
 
   return (
-    <div>
-      <h2>Select Users to Merge</h2>
+    <div className="user-merge-container">
+      <h2 className="user-merge-header">Select Users to Merge</h2>
       {users.map(user => (
-        <div key={user.id}>
+        <div key={user.id} className="user-checkbox">
           <input
             type="checkbox"
             id={user.id}
