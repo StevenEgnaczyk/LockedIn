@@ -6,9 +6,10 @@ import {toast} from 'react-toastify';
 import './Startup.css';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 
-const Login = () => {
+const Login = ({onLogin}) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+
 
     const handleLogin = async (e) => {
         e.preventDefault();
