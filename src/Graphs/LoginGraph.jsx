@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import ForceGraph3D from "react-force-graph-3d";
+import NavBarLeft from "../HomePage/components/NavBarLeft";
 
 const generateFakeData = (nodeCount = 10, linkCount = 15) => {
     const nodes = Array.from({ length: nodeCount }, (_, i) => ({
@@ -38,7 +39,6 @@ const LoginGraph = () => {
     };
 
     useEffect(() => {
-        // Set the camera distance to 300
         if (graphRef.current) {
             graphRef.current.cameraPosition(
                 { x: 0, y: 0, z: 800 },
@@ -52,13 +52,17 @@ const LoginGraph = () => {
     }, []);
 
     return (
-        <ForceGraph3D
-            ref={graphRef}
-            graphData={fakeData}
-            nodeAutoColorBy={"id"}
-            enableNodeDrag={false}
-        />
-    );
-};
+        <div style={{position: 'relative'}}>
+            <ForceGraph3D
+                ref={graphRef}
+                graphData={fakeData}
+                nodeAutoColorBy={"id"}
+                enableNodeDrag={false}
+            />
+            <div className={"navbar"} >
+                <NavBarLeft/>
+            </div>
+        </div>
+);};
 
 export default LoginGraph;

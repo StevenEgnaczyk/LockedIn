@@ -5,9 +5,8 @@ import React from "react";
 
 function App() {
   return (
-    <div>
-        <LoginGraph />
-        <div>test</div>
+    <div className={"main-page"}>
+        <LoginGraph className={"login-graph"} />
     </div>
   );
 }
