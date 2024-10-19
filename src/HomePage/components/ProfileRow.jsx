@@ -1,25 +1,18 @@
 import React from "react";
-import { BsCrosshair } from "react-icons/bs";
+import './ProfileRow.css';
 
-import './ProfileRow.css'
-
-const ProfileRow = ({openProfile, user}) => {
-
-    const focusNode = () => {
-
-    }
-
+const ProfileRow = ({ name, company, position }) => {
     return (
-        <div className={'profile-row'} onClick={openProfile}>
+        <div className={'profile-row'}>
             <div className={'user-text'}>
-                <h2>name</h2>
-                <p>company</p>
-                <p>position</p>
+                <h2>{name}</h2>
+                <p>Company: {company}</p>
+                <p>Position: {position}</p>
             </div>
             <BsCrosshair className={'go-to-icon'} onClick={focusNode}/>
 
         </div>
-    )
-}
+    );
+};
 
 export default ProfileRow;
