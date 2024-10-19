@@ -51,8 +51,7 @@ const App = () => {
   useEffect(() => {
     const fetchGraphData = async () => {
       try {
-        // If the JSON file is local, you can use a fetch request
-        const response = await fetch('./connections_graph.json');  // Replace with actual path
+        const response = await fetch('./connections_graph.json');
         const data = await response.json();
         setGraphData(data);
       } catch (error) {
@@ -82,8 +81,8 @@ const App = () => {
       );
     }
 
-    const interval = setInterval(rotateGraph, 25); // Rotate every 50ms
-    return () => clearInterval(interval); // Clean up the interval on component unmount
+    const interval = setInterval(rotateGraph, 10);
+    return () => clearInterval(interval);
   }, []);
 
 
@@ -96,12 +95,15 @@ const App = () => {
     <div className={'page'}>
       <div style={{ position: 'relative' }}>
         <ForceGraph3D
-          ref={graphRef}
-          graphData={isLoggedIn ? (graphData) : (fakeData)}
-          nodeId="id"
-          nodeLabel={node => `${node.name}`} // Display the name on hover
-          linkDirectionalArrowLength={5}
-          linkDirectionalArrowColor="red"
+            ref={graphRef}
+            graphData={isLoggedIn ? (graphData) : (fakeData)}
+            nodeId="id"
+            nodeAutoColorBy={"id"}
+            nodeLabel={node => `${node.name}`}
+            showNavInfo={false}
+            enableNavigationControls={isLoggedIn}
+            nodeOpacity={1}
+            nodeRelSize={2}
         />
         {!isLoggedIn && <div className={"startup"}>
           <Startup onLogin={handleLogin}/>
