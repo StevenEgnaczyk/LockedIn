@@ -3,6 +3,7 @@ import { Button, ButtonGroup } from "@nextui-org/react";
 import { Input } from "@nextui-org/input";
 import { toast } from 'react-toastify';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { sendEmailVerification } from 'firebase/auth';
 import { auth, firestore } from '../../index';
 
 import './Startup.css';
@@ -21,7 +22,7 @@ const Signup = () => {
             const userCredential = await createUserWithEmailAndPassword(auth, email, password);
 
             /* Send email verification */
-            await userCredential.user.sendEmailVerification(userCredential.user);
+            await sendEmailVerification(userCredential.user);
 
             /* Pop up with success and verification notice */
             toast.success("A verification email has been sent to your email address", { position: 'top-center' });
