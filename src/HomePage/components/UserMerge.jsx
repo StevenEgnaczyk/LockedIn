@@ -3,6 +3,8 @@ import { firestore, auth } from '../../index';  // Importing firestore and auth
 import { collection, getDocs } from 'firebase/firestore'; 
 import { useGraphData } from './GraphDataContext';  // Import the custom hook
 
+import './UserMerge.css';
+
 const UserMerge = () => {
   const { setGraphData } = useGraphData();  // Get the setGraphData function from the custom hook
   const [users, setUsers] = useState([]);
@@ -157,7 +159,7 @@ const UserMerge = () => {
   }
 
   return (
-    <div>
+    <div className={'user-merge-container'}>
       <h2>Select Users to Merge</h2>
       {users.map(user => (
         <div key={user.id}>
