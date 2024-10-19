@@ -13,7 +13,6 @@ const Login = ({onLogin}) => {
 
     const handleLogin = async (e) => {
         e.preventDefault();
-
         try {
             await signInWithEmailAndPassword(auth, email, password);
             toast.success("Logged in successfully");
@@ -21,6 +20,7 @@ const Login = ({onLogin}) => {
             console.error("Error signing in:", error);
             toast.error("Failed to log in. Please check your credentials.");
         }
+        onLogin();
     }
 
     return (
@@ -37,8 +37,8 @@ const Login = ({onLogin}) => {
                     placeholder="Password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}/>
-                <div className={'button'}>
-                    <span className={'text'} onClick={handleLogin}>Login</span>
+                <div className={'button'} onClick={handleLogin}>
+                    <span className={'text'} >Login</span>
                 </div>
             </form>
         </div>
