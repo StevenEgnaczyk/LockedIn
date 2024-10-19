@@ -9,7 +9,6 @@ import UploadBar from "./HomePage/components/UploadBar";
 import { ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 import FakeComponent from "./HomePage/components/FakeComponent";
-import { sendEmailVerification } from 'firebase/auth';
 
 const generateFakeData = (nodeCount = 10, linkCount = 15) => {
   const nodes = Array.from({ length: nodeCount }, (_, i) => ({
