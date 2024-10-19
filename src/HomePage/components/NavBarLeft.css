@@ -72,7 +72,6 @@
     color: white; /* Text color */
     padding: 12px 1rem; /* Padding for button */
     margin-left: 4px; /* Space between input and button */
-    margin-bottom: 0.5rem;
     cursor: pointer; /* Pointer cursor on hover */
     transition: background-color 0.3s; /* Smooth transition */
     border: 1px solid white;
@@ -87,4 +86,21 @@
 .search-content {
     display: flex;
     flex-direction: column;
+}
+
+.result-count {
+    display: flex;
+    flex-direction: row;
+    color: white;
+    margin: 10px;
+    justify-content: right;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.counter {
+    width: 10%;
+    background: transparent;
+    padding: 4px;
+    color: white;
 }
