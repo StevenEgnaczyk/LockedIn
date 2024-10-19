@@ -8,6 +8,11 @@
     flex-direction: column;
     align-items: center;
     height: 25vh;
+    margin-top: -1rem;
+}
+
+.header-text {
+    color: white;
 }
 
 .input-container {
@@ -33,7 +38,6 @@
     text-align: center;
     color: white;
     font-size: 5rem;
-    margin-bottom: 1rem;
 }
 
 input {

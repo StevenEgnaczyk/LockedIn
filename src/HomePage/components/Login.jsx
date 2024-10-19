@@ -25,7 +25,7 @@ const Login = ({onLogin}) => {
 
     return (
         <div className="auth-container">
-            <h2>Login</h2>
+            <h2 className={'header-text'}>Login</h2>
             <form className="login-form">
                 <Input
                     type="email"

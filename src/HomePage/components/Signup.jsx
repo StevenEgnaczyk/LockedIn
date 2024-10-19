@@ -49,7 +49,7 @@ const Signup = ({onLogin}) => {
 
     return (
         <div className="auth-container">
-            <h2>Signup</h2>
+            <h2 className={'header-text'}>Signup</h2>
             <form className="login-form">
                 <Input
                     type="email"
