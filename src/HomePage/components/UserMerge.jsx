@@ -14,7 +14,7 @@ const UserMerge = () => {
     const fetchUsers = async () => {
       try {
         setIsLoading(true);
-        const usersCollection = collection(firestore, 'linkedin_data');
+        const usersCollection = collection(firestore, 'people');
         const userSnapshot = await getDocs(usersCollection);
         const userList = userSnapshot.docs.map(doc => ({
           id: doc.id,
