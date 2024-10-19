@@ -38,7 +38,7 @@ const App = () => {
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [rotationSpeed] = useState(0.001);
-  const [isPaused, setPaused] = useState(false);
+  const [isPaused, setPaused] = useState(true);
   const [currentAngle, setCurrentAngle] = useState(0); // State to track the current angle
 
   const fakeData = generateFakeData(250, 500);
@@ -88,7 +88,13 @@ const App = () => {
     return () => {
       clearInterval(interval); // Clear the interval on cleanup
     };
-  }, [isPaused]); // Add isPaused as a dependency
+  }, [isPaused]);
+
+  useEffect(() => {
+    if (graphData) {
+      setPaused(false); // Unpause when graphData changes
+    }
+  }, [graphData]);
 
   const handleLogin = () => {
     setIsLoggedIn(true);
