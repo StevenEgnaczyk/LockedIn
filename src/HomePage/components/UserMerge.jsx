@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { firestore, auth } from '../../index';  // Importing firestore and auth
 import { collection, getDocs } from 'firebase/firestore'; 
 import Papa from 'papaparse';  // Import PapaParse for CSV export
+import { useGraphData } from './GraphDataContext';  // Import the custom hook
 
 const UserMerge = () => {
+  const { setGraphData } = useGraphData();  // Get the setGraphData function from the custom hook
   const [users, setUsers] = useState([]);
   const [selectedUsers, setSelectedUsers] = useState([]);
   const [mergedData, setMergedData] = useState(null);
@@ -177,8 +179,8 @@ const UserMerge = () => {
       links: links  // Add links to the JSON object
     };
 
-    // Export the JSON object
-    exportToJSON(graphData, 'connections_graph.json');
+    // Set the graph data in the context
+    setGraphData(graphData);
   };
 
   if (isLoading) {
