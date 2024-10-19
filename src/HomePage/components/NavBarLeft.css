@@ -4,6 +4,7 @@
     padding: 1rem;
     background-color: transparent;
     color: white;
+    animation: slide 0.3s backwards;
 }
 
 .popout-button:focus {
@@ -29,11 +30,25 @@
     background-color: #6666;
     border-radius: 1rem;
     padding: 1rem;
+    animation: slide 0.3s forwards;
+}
+
+@keyframes slide {
+    from {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
 }
 
 .top-row {
     display: flex;
     flex-direction: row;
+    margin-inline: auto;
+    gap: 0.5rem;
 }
 
 .search-bar {
