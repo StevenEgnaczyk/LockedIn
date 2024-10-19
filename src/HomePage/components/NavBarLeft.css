@@ -31,6 +31,7 @@
     border-radius: 1rem;
     padding: 1rem;
     animation: slide 0.3s forwards;
+    overflow-y: scroll;
 }
 
 @keyframes slide {
@@ -49,6 +50,8 @@
     flex-direction: row;
     margin-inline: auto;
     gap: 0.5rem;
+    justify-content: center;
+    align-items: center;
 }
 
 .search-bar {
@@ -67,16 +70,21 @@
 .search-button {
     background-color: transparent; /* Bootstrap primary color */
     color: white; /* Text color */
-    padding: 8px 12px; /* Padding for button */
+    padding: 12px 1rem; /* Padding for button */
     margin-left: 4px; /* Space between input and button */
+    margin-bottom: 0.5rem;
     cursor: pointer; /* Pointer cursor on hover */
     transition: background-color 0.3s; /* Smooth transition */
     border: 1px solid white;
     border-radius: 0.5rem;
+    justify-content: center;
 }
 
 .search-button:hover {
     background-color: white; /* Darker shade on hover */
 }
 
-
+.search-content {
+    display: flex;
+    flex-direction: column;
+}
