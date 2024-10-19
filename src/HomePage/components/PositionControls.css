@@ -1,0 +1,25 @@
+
+.controls-container {
+    display: flex;
+    flex-direction: row;
+    padding: 1rem 2rem;
+    margin: 2rem;
+    gap: 2rem;
+    justify-content: center;
+    align-items: center;
+    width: 5vw;
+}
+
+.center-icon {
+    scale: 2;
+    color: white;
+    margin: auto;
+    cursor: pointer;
+}
+
+.refresh-icon {
+    scale: 2;
+    color: white;
+    margin: auto;
+    cursor: pointer;
+}
