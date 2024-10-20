@@ -46,19 +46,22 @@ const FocusGraph = forwardRef((props, ref) => {
     return <div>Loading...</div>;
   }
 
+  console.log(graphData.links);
+
   return (
     <div style={{ width: '100vw', height: '100vh', margin: 0 }}>
       <ForceGraph3D
         ref={fgRef}
         graphData={graphData}
         nodeId="id"
-        nodeAutoColorBy="id"
+        nodeAutoColorBy="position"
         nodeLabel="name"
         showNavInfo={false}
         nodeOpacity={0.75}
         enableNodeDrag={false}
         nodeRelSize={2}
         onNodeClick={handleClick}
+        linkWidth={link => link.thickness / 4} // Use the thickness property
       />
     </div>
   );
