@@ -140,12 +140,7 @@ const NavBarLeft = () => {
                         </div>
                     ) : (
                         <div>
-<<<<<<< Updated upstream
-
-                            <ProfilePanel allNodes={graphData.nodes} node={openNode} closeProfile={closeProfile}/>
-=======
                             <ProfilePanel node={openNode} closeProfile={closeProfile} />
->>>>>>> Stashed changes
                         </div>
                     )}
                 </div>
