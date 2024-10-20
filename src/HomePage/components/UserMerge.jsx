@@ -52,6 +52,7 @@ const UserMerge = () => {
   }, [activeUser, users]);
 
   useEffect(() => {
+    // Only generate the graph when selectedUsers changes
     if (selectedUsers.length > 0) {
       generateGraph();
     }
@@ -177,6 +178,13 @@ const UserMerge = () => {
     setGraphData(graphData);
     //downloadJSON(graphData);  // Call the download function here
   };
+
+  // Use this effect to generate the graph on page load
+  useEffect(() => {
+    if (users.length > 0) {
+      generateGraph(); // Generate graph with the initial active user
+    }
+  }, [users]);
 
   if (isLoading) {
     return <div>Loading users...</div>;
