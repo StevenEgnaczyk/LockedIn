@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "@nextui-org/react";
 import { BsChevronDoubleRight, BsChevronDoubleLeft } from "react-icons/bs";
 import { useGraphData } from './GraphDataContext';  // Import your GraphDataContext
@@ -17,6 +17,13 @@ const NavBarLeft = () => {
     const [openNode, setOpenNode] = useState(null);
     const [search, setSearch] = useState(''); // New state for search input
     const [filteredNodes, setFilteredNodes] = useState([]); // State for filtered nodes
+
+    // Effect to auto-populate filtered nodes when graphData changes
+    useEffect(() => {
+        if (graphData && graphData.nodes) {
+            setFilteredNodes(graphData.nodes.slice(0, resultCount)); // Set initial filtered nodes
+        }
+    }, [graphData, resultCount]); // Run effect when graphData or resultCount changes
 
     const openNavbar = () => {
         setOpen(!isOpen);
@@ -68,7 +75,7 @@ const NavBarLeft = () => {
         if (!graphData || !graphData.nodes) return;
 
         if (!search.trim()) {
-            setFilteredNodes(graphData.nodes.slice(0, resultCount));
+            setFilteredNodes(graphData.nodes.slice(0, resultCount)); // Reset to initial nodes if search is empty
             return;
         }
 
