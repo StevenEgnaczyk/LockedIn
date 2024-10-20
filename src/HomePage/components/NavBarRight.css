@@ -1,6 +1,5 @@
 .popout-button-right {
     border: none;
-    padding: 1rem;
     background-color: transparent;
     color: white;
     margin-right: auto;
@@ -15,6 +14,7 @@
 .icon {
     cursor: pointer;
     scale: 2;
+    margin: 0.5rem;
 }
 
 /*.navbar-dropdown {*/
@@ -131,7 +131,7 @@
 .opened-buttons {
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
-    margin-top: -0.5rem;
+    gap: 1rem;
+    margin-top: -3rem;
     animation: slideFromTop 0.5s forwards;
 }
