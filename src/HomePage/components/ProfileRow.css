@@ -16,12 +16,18 @@
     user-select: none;
 }
 
-.profile-pic {
-    max-height: 50px;
-    border-radius: 50%;
-}
-
 .user-text {
     display: flex;
     flex-direction: column;
+}
+
+.profile-name {
+    margin: auto 0;
+    text-align: left;
+    font-size: 1.2rem;
+    color: black;
+}
+
+p {
+    font-size: 1rem;
 }

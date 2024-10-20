@@ -5,6 +5,7 @@
     background-color: transparent;
     color: white;
     animation: slide 0.3s backwards;
+    margin-left: auto;
 }
 
 .popout-button:focus {
@@ -21,7 +22,7 @@
     margin: 1rem;
 }
 
-.open-navbar {
+.open-navbar-left {
     display: flex;
     flex-direction: column;
     margin: -1rem;
@@ -70,7 +71,7 @@
 .search-button {
     background-color: transparent; /* Bootstrap primary color */
     color: white; /* Text color */
-    padding: 12px 1rem; /* Padding for button */
+    padding: 12px 10px; /* Padding for button */
     margin-left: 4px; /* Space between input and button */
     cursor: pointer; /* Pointer cursor on hover */
     transition: background-color 0.3s; /* Smooth transition */
@@ -92,15 +93,20 @@
     display: flex;
     flex-direction: row;
     color: white;
-    margin: 10px;
     justify-content: right;
     align-items: center;
     gap: 0.5rem;
+    margin: 0;
+}
+
+.result-text {
+    color: white;
+    padding-bottom: 1rem;
 }
 
 .counter {
     width: 10%;
-    background: transparent;
     padding: 4px;
+    background: transparent;
     color: white;
 }
