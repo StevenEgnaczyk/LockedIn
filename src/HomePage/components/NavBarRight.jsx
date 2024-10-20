@@ -30,8 +30,8 @@ const NavBarRight = ({setLogOut}) => {
                     {/* Render content based on the active page */}
 
                     {fullBarPage === 'Log Out' && <button  onClick={setLogOut}>Confirm Logout?</button> }
-                    {fullBarPage === 'filter' && <div>Filter Content</div>}
-                    {fullBarPage === 'file-upload' && <UploadBar />}
+                    {fullBarPage === 'filter' && <UserMerge />}
+                    {fullBarPage === 'file-upload' && <FileUpload />}
 
                 </div>
             )}
