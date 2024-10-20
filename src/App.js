@@ -14,16 +14,21 @@ import UserMerge from "./HomePage/components/UserMerge";
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [activeNode, setActiveNode] = useState(null);
   const graphRef = useRef();
 
   const handleLogin = () => {
     setIsLoggedIn(true);
   }
 
+  const handleNodeClick = (node) => {
+      setActiveNode(node);
+  }
+
   return (
     <div className={'page'}>
       <div style={{ width: '100vw', height: '100vh', margin: 0 }}>
-        <FocusGraph ref={graphRef} />
+        <FocusGraph nodeClick={handleNodeClick} ref={graphRef} />
         {!isLoggedIn && (
           <div className={"startup"}>
             <Startup onLogin={handleLogin} />
@@ -37,7 +42,7 @@ const App = () => {
                 <NavBarRight />
             </div>
             <div className={"navbarleft"}>
-              <NavBarLeft />
+              <NavBarLeft activeNode={activeNode}/>
             </div>
             <div className={'position-controls'}>
               <PositionControls resetCamera={graphRef.current?.reset} /> {/* Pass resetCamera prop */}
