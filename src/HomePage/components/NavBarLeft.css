@@ -13,9 +13,10 @@
     box-shadow: none;
 }
 
-.icon {
+.icon-right {
     cursor: pointer;
-    scale: 2;
+    scale: 2.5;
+    margin: 1rem;
 }
 
 .navbar-container {
