@@ -25,6 +25,11 @@ const App = () => {
       setActiveNode(node);
   }
 
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+  };
+
+
   return (
     <div className={'page'}>
       <div style={{ width: '100vw', height: '100vh', margin: 0 }}>
@@ -39,7 +44,8 @@ const App = () => {
                 <h1 className={'app-title'}>LockedIn</h1>
                 <UserMerge style={{display:'none'}}/>
             <div className={"navbarright"}>
-                <NavBarRight />
+
+              <NavBarRight setLogOut={handleLogout} />
             </div>
             <div className={"navbarleft"}>
               <NavBarLeft activeNode={activeNode}/>

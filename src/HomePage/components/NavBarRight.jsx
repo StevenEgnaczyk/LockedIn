@@ -1,14 +1,15 @@
 import React, {useRef, useState} from "react";
 import './NavBarRight.css';
 import { CiSettings } from "react-icons/ci";
-import { BsFileEarmark } from "react-icons/bs";
+
+import { BsFileEarmark, BsPower} from "react-icons/bs";
 import { BsFunnel } from "react-icons/bs";
 import UserMerge from "./UserMerge";
 import FileUpload from "./FileUpload";
 
 const NavBarRight = ({setLogOut}) => {
     const [isOpen, setOpen] = useState(false);
-    const [fullBarPage, setFullBarPage] = useState(null); // Manage the active page
+    const [fullBarPage, setFullBarPage] = useState(null);
 
     const toggleNavbar = () => {
         if (isOpen) {
@@ -18,19 +19,17 @@ const NavBarRight = ({setLogOut}) => {
     }
 
     const setBarPage = (page) => {
-        setFullBarPage(page); // Set the active page based on button click
+        setFullBarPage(page);
     };
 
     return (
         <div className="navbar-right-container">
             {fullBarPage && (
                 <div className="full-bar">
-                    {/* Render content based on the active page */}
-                    {fullBarPage === 'home' && <button onClick={setLogOut}>
-                        signout
-                    </button>}
+                    {fullBarPage === 'Log Out' && <button  onClick={setLogOut}>Confirm Logout?</button> }
                     {fullBarPage === 'filter' && <UserMerge />}
                     {fullBarPage === 'file-upload' && <FileUpload />}
+
                 </div>
             )}
             <div className="navbar-dropdown">
@@ -38,9 +37,11 @@ const NavBarRight = ({setLogOut}) => {
                 <CiSettings className="icon-right" />
             </div>
             {isOpen && (
-                <div className={'opened-buttons'}>
-                    <div className="home-button" onClick={() => setBarPage('home')}>
-                        <BsFileEarmark className="icon" />
+
+                <div>
+                    <div className="Logout-button" onClick={() => setBarPage('Log Out')}>
+                        <BsPower className="icon" />  
+
                     </div>
                     <div className="filter-button" onClick={() => setBarPage('filter')}>
                         <BsFunnel className="icon" />
