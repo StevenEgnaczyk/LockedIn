@@ -25,7 +25,6 @@ const UserMerge = () => {
         }));
         setUsers(userList);
       } catch (err) {
-        console.error("Error fetching users:", err);
         setError("Failed to fetch users. Please try again later.");
       } finally {
         setIsLoading(false);
@@ -33,9 +32,9 @@ const UserMerge = () => {
     };
 
     const fetchActiveUser = () => {
-      const user = auth.currentUser;  // Get the current user
+      const user = auth.currentUser;
       if (user) {
-        setActiveUser(user.uid); // Set the active user's UID
+        setActiveUser(user.uid);
       }
     };
 
@@ -44,13 +43,19 @@ const UserMerge = () => {
   }, []);
 
   useEffect(() => {
-    if (activeUser) {
+    if (activeUser && users.length > 0) {  
       const selectedActiveUser = users.find(user => user.uid === activeUser);
       if (selectedActiveUser && !selectedUsers.includes(selectedActiveUser.id)) {
         setSelectedUsers(prevSelected => [...prevSelected, selectedActiveUser.id]);
       }
     }
   }, [activeUser, users]);
+
+  useEffect(() => {
+    if (selectedUsers.length > 0) {
+      generateGraph();
+    }
+  }, [selectedUsers]);
 
   const handleCheckboxChange = (userId) => {
     setSelectedUsers(prevSelected => 
@@ -84,14 +89,14 @@ const UserMerge = () => {
 
     const mergedFields = {};
     selectedUserData.forEach(user => {
-        Object.keys(user).forEach(key => {
-            if (key !== 'id' && key !== 'connections') {
-                if (!mergedFields[key]) {
-                    mergedFields[key] = new Set();
-                }
-                mergedFields[key].add(user[key]);
-            }
-        });
+      Object.keys(user).forEach(key => {
+        if (key !== 'id' && key !== 'connections') {
+          if (!mergedFields[key]) {
+            mergedFields[key] = new Set();
+          }
+          mergedFields[key].add(user[key]);
+        }
+      });
     });
 
     const nodes = allConnectionData
@@ -119,48 +124,36 @@ const UserMerge = () => {
     const connectionCountMap = new Map();
 
     selectedUserData.forEach(user => {
-        user.connectionIds.forEach(connectionId => {
-            connectionCountMap.set(connectionId, (connectionCountMap.get(connectionId) || 0) + 1);
-        });
+      user.connectionIds.forEach(connectionId => {
+        connectionCountMap.set(connectionId, (connectionCountMap.get(connectionId) || 0) + 1);
+      });
     });
 
     const links = [];
     selectedUserData.forEach(user => {
-        user.connectionIds.forEach(connectionId => {
-            const thickness = connectionCountMap.get(connectionId) || 1; // Default to 1 if no connections
-            links.push({
-                source: user.id,
-                target: connectionId,
-                thickness: thickness
-            });
-
-            // Add connection to the nodes
-            const sourceNode = allNodes.find(node => node.id === user.id);
-            const targetNode = allNodes.find(node => node.id === connectionId);
-
-            if (sourceNode && targetNode && !sourceNode.connections.includes(targetNode.id)) {
-                sourceNode.connections.push(targetNode.id);
-            }
+      user.connectionIds.forEach(connectionId => {
+        const thickness = connectionCountMap.get(connectionId) || 1;
+        links.push({
+          source: user.id,
+          target: connectionId,
+          thickness: thickness
         });
+
+        const sourceNode = allNodes.find(node => node.id === user.id);
+        const targetNode = allNodes.find(node => node.id === connectionId);
+
+        if (sourceNode && targetNode && !sourceNode.connections.includes(targetNode.id)) {
+          sourceNode.connections.push(targetNode.id);
+        }
+      });
     });
 
     const graphData = {
-        nodes: allNodes,
-        links: links
+      nodes: allNodes,
+      links: links
     };
 
     setGraphData(graphData);
-    saveGraphDataToFile(graphData);
-};
-
-  const saveGraphDataToFile = (data) => {
-    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'graphData.json';
-    a.click();
-    URL.revokeObjectURL(url);
   };
 
   if (isLoading) {
@@ -176,7 +169,7 @@ const UserMerge = () => {
   }
 
   return (
-    <div className={'user-merge-container'}>
+    <div className="user-merge-container">
       <h2>Select Users to Merge</h2>
       {users.map(user => (
         <div key={user.id} className="user-row">
@@ -189,7 +182,7 @@ const UserMerge = () => {
           />
         </div>
       ))}
-      <button onClick={generateGraph} disabled={selectedUsers.length < 2}>
+      <button onClick={generateGraph} disabled={selectedUsers.length < 1}>
         Find Mutual Connections and Generate Graph
       </button>
     </div>
