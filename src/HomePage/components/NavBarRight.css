@@ -97,9 +97,7 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    gap: 1rem;
     align-items: center;
-    animation: slideFromTop 0.5s forwards;
     margin-bottom: auto;
 }
 
@@ -122,10 +120,18 @@
     display: flex;
     flex-direction: column;
     width: 40vh;
-    height: calc(100vh - 4rem);
+    height: auto;
     background-color: #6666;
     border-radius: 1rem;
     padding: 1rem;
     animation: slideFromRight 0.3s forwards;
     overflow-y: scroll;
+}
+
+.opened-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin-top: -0.5rem;
+    animation: slideFromTop 0.5s forwards;
 }
