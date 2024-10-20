@@ -144,6 +144,20 @@ const UserMerge = () => {
 
     // Set the graph data in the context
     setGraphData(graphData);
+
+    // Save the JSON object to a file
+    const saveGraphDataToFile = (data) => {
+      const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'graphData.json';
+      a.click();
+      URL.revokeObjectURL(url);
+    };
+
+    // Call the function to save the file
+    saveGraphDataToFile(graphData);
   };
 
   if (isLoading) {
