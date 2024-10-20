@@ -1,22 +1,13 @@
-
-.navbar-right-container {
-    position: fixed; 
-    right: 0;
-    top: 0; 
-    height: 100vh;
-    z-index: 1000; 
-}
-
-.popout-button {
+.popout-button-right {
     border: none;
     padding: 1rem;
     background-color: transparent;
     color: white;
-    animation: slideFromRight 0.3s backwards;
     margin-right: auto;
+    display: inline-block;
 }
 
-.popout-button:focus {
+.popout-button-right:focus {
     outline: none;
     box-shadow: none;
 }
@@ -26,18 +17,17 @@
     scale: 2;
 }
 
-.open-navbar {
-    display: flex;
-    flex-direction: column;
-    margin: -1rem;
-    width: 50vh; 
-    height: calc(100vh - 4rem);
-    background-color: #6666;
-    border-radius: 1rem;
-    padding: 1rem;
-    animation: slideFromRight 0.3s forwards;
-    overflow-y: scroll; 
-}
+/*.navbar-dropdown {*/
+/*    display: flex;*/
+/*    flex-direction: column;*/
+/*    margin: -1rem;*/
+/*    width: 50vh; */
+/*    height: calc(100vh - 4rem);*/
+/*    background-color: #6666;*/
+/*    border-radius: 1rem;*/
+/*    padding: 1rem;*/
+/*    overflow-y: scroll;*/
+/*}*/
 
 @keyframes slideFromRight {
     from {
@@ -96,4 +86,52 @@
 .search-content {
     display: flex;
     flex-direction: column;
+}
+
+.icon {
+    color: white;
+}
+
+.navbar-dropdown {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: auto;
+}
+
+@keyframes slideFromTop {
+    from {
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+.navbar-right-container {
+    display: flex;
+}
+
+.full-bar {
+    display: flex;
+    flex-direction: column;
+    width: 40vh;
+    height: auto;
+    background-color: #6666;
+    border-radius: 1rem;
+    padding: 1rem;
+    animation: slideFromRight 0.3s forwards;
+    overflow-y: scroll;
+}
+
+.opened-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin-top: -0.5rem;
+    animation: slideFromTop 0.5s forwards;
 }

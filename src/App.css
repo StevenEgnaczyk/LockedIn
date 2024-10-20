@@ -13,6 +13,14 @@
   z-index: 100;
 }
 
+.navbarright {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 1rem;
+  z-index: 100;
+}
+
 .login-graph {
   position: relative;
   z-index: 1;
