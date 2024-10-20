@@ -20,6 +20,10 @@ const App = () => {
     setIsLoggedIn(true);
   }
 
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+  };
+
   return (
     <div className={'page'}>
       <div style={{ width: '100vw', height: '100vh', margin: 0 }}>
@@ -33,7 +37,7 @@ const App = () => {
         {isLoggedIn && (
           <div>
             <div className={"navbarright"}>
-              <NavBarRight />
+              <NavBarRight setLogOut={handleLogout} />
             </div>
             <div className={"navbarleft"}>
               <NavBarLeft />

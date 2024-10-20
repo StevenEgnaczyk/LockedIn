@@ -3,9 +3,9 @@ import { Button } from "@nextui-org/react";
 import UploadBar from "./UploadBar"; 
 import './NavBarRight.css'; 
 import { CiSettings } from "react-icons/ci";
-import { BsFileEarmark } from "react-icons/bs";
+import { BsFileEarmark, BsPower } from "react-icons/bs";
 
-const NavBarRight = () => {
+const NavBarRight = ({setLogOut}) => {
     const [isOpen, setOpen] = useState(false);
     const [fullBarPage, setFullBarPage] = useState(null); // Manage the active page
 
@@ -20,7 +20,7 @@ const NavBarRight = () => {
             {fullBarPage && (
                 <div className="full-bar">
                     {/* Render content based on the active page */}
-                    {fullBarPage === 'home' && <div>Home Content</div>}
+                    {fullBarPage === 'Log Out' && <button  onClick={setLogOut}>Confirm Logout?</button> }
                     {fullBarPage === 'filter' && <div>Filter Content</div>}
                     {fullBarPage === 'file-upload' && <UploadBar />}
                 </div>
@@ -31,8 +31,8 @@ const NavBarRight = () => {
             </div>
             {isOpen && (
                 <div>
-                    <div className="home-button" onClick={() => setBarPage('home')}>
-                        <BsFileEarmark className="icon" />
+                    <div className="Logout-button" onClick={() => setBarPage('Log Out')}>
+                        <BsPower className="icon" />  
                     </div>
                     <div className="filter-button" onClick={() => setBarPage('filter')}>
                         <BsFileEarmark className="icon" />
