@@ -179,14 +179,14 @@ const UserMerge = () => {
     <div className={'user-merge-container'}>
       <h2>Select Users to Merge</h2>
       {users.map(user => (
-        <div key={user.id}>
+        <div key={user.id} className="user-row">
+          <label htmlFor={user.id}>{user.first_name} {user.last_name}</label>
           <input
             type="checkbox"
             id={user.id}
             checked={selectedUsers.includes(user.id)}
             onChange={() => handleCheckboxChange(user.id)}
           />
-          <label htmlFor={user.id}>{user.first_name} {user.last_name}</label>
         </div>
       ))}
       <button onClick={generateGraph} disabled={selectedUsers.length < 2}>
