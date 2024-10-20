@@ -24,10 +24,10 @@ const UserMerge = () => {
           ...doc.data()
         }));
         setUsers(userList);
-        setIsLoading(false);
       } catch (err) {
         console.error("Error fetching users:", err);
         setError("Failed to fetch users. Please try again later.");
+      } finally {
         setIsLoading(false);
       }
     };
@@ -45,16 +45,9 @@ const UserMerge = () => {
 
   useEffect(() => {
     if (activeUser) {
-      // Select the active user by their UID and check if they are in the user list
       const selectedActiveUser = users.find(user => user.uid === activeUser);
-      if (selectedActiveUser) {
-        setSelectedUsers(prevSelected => {
-          // Ensure the active user is checked
-          if (!prevSelected.includes(selectedActiveUser.id)) {
-            return [...prevSelected, selectedActiveUser.id];
-          }
-          return prevSelected;
-        });
+      if (selectedActiveUser && !selectedUsers.includes(selectedActiveUser.id)) {
+        setSelectedUsers(prevSelected => [...prevSelected, selectedActiveUser.id]);
       }
     }
   }, [activeUser, users]);
@@ -69,11 +62,9 @@ const UserMerge = () => {
 
   const findAllConnections = (selectedUserData) => {
     const allConnections = new Set();
-
     selectedUserData.forEach(user => {
       user.connectionIds.forEach(id => allConnections.add(id));
     });
-
     return Array.from(allConnections);
   };
 
@@ -93,91 +84,83 @@ const UserMerge = () => {
 
     const mergedFields = {};
     selectedUserData.forEach(user => {
-      Object.keys(user).forEach(key => {
-        if (key !== 'id' && key !== 'connections') {
-          if (!mergedFields[key]) {
-            mergedFields[key] = new Set();
-          }
-          mergedFields[key].add(user[key]);
-        }
-      });
+        Object.keys(user).forEach(key => {
+            if (key !== 'id' && key !== 'connections') {
+                if (!mergedFields[key]) {
+                    mergedFields[key] = new Set();
+                }
+                mergedFields[key].add(user[key]);
+            }
+        });
     });
 
-    // Prepare nodes for the JSON structure
     const nodes = allConnectionData
       .filter(conn => allConnectionsList.includes(conn.id))
       .map(conn => ({
         id: conn.id,
         name: `${conn.first_name} ${conn.last_name}`,
-        profile_url: `${conn.url}`,
-        company: `${conn.company}`,
-        connected_on: `${conn.connected_on}`,
-        position: `${conn.position}`,
-        email: `${conn.email_address}`,
+        profile_url: conn.url,
+        company: conn.company,
+        connected_on: conn.connected_on,
+        position: conn.position,
+        email: conn.email_address,
         connections: []
       }));
 
-    // Add selected users to nodes as well
     const selectedNodes = selectedUserData.map(user => ({
       id: user.id,
-      name: `${user.first_name} ${user.last_name}`, // Combine first and last names
-      connections: []
+      name: `${user.first_name} ${user.last_name}`,
+      connections: [],
+      connectionCount: 0,
     }));
 
-    // Merge selected users into nodes
     const allNodes = [...new Map([...selectedNodes, ...nodes].map(item => [item.id, item])).values()];
 
-    // Prepare links for the JSON structure
-    const links = [];
+    const connectionCountMap = new Map();
+
     selectedUserData.forEach(user => {
-      user.connectionIds.forEach(connectionId => {
-        links.push({
-          source: user.id,   // The selected user ID
-          target: connectionId // The connection in their list
+        user.connectionIds.forEach(connectionId => {
+            connectionCountMap.set(connectionId, (connectionCountMap.get(connectionId) || 0) + 1);
         });
-        // Add the connection to both source and target nodes
-        const sourceNode = allNodes.find(node => node.id === user.id);
-        const targetNode = allNodes.find(node => node.id === connectionId);
-
-        if (sourceNode && targetNode) {
-          // Only add the connection if it's one-way and not mutual
-          if (!targetNode.connections.includes(sourceNode.id)) {
-            sourceNode.connections.push(targetNode.id);
-          }
-
-          // Add the link only if it's not mutual already
-          if (!links.some(link => link.source === targetNode.id && link.target === sourceNode.id)) {
-            links.push({
-              source: user.id,   // The selected user ID
-              target: connectionId // The connection in their list
-            });
-          }
-        }
-      });
     });
 
-    // Create JSON object
+    const links = [];
+    selectedUserData.forEach(user => {
+        user.connectionIds.forEach(connectionId => {
+            const thickness = connectionCountMap.get(connectionId) || 1; // Default to 1 if no connections
+            links.push({
+                source: user.id,
+                target: connectionId,
+                thickness: thickness
+            });
+
+            // Add connection to the nodes
+            const sourceNode = allNodes.find(node => node.id === user.id);
+            const targetNode = allNodes.find(node => node.id === connectionId);
+
+            if (sourceNode && targetNode && !sourceNode.connections.includes(targetNode.id)) {
+                sourceNode.connections.push(targetNode.id);
+            }
+        });
+    });
+
     const graphData = {
-      nodes: allNodes,
-      links: links  // Add links to the JSON object
+        nodes: allNodes,
+        links: links
     };
 
-    // Set the graph data in the context
     setGraphData(graphData);
-
-    // Save the JSON object to a file
-    const saveGraphDataToFile = (data) => {
-      const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'graphData.json';
-      a.click();
-      URL.revokeObjectURL(url);
-    };
-
-    // Call the function to save the file
     saveGraphDataToFile(graphData);
+};
+
+  const saveGraphDataToFile = (data) => {
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'graphData.json';
+    a.click();
+    URL.revokeObjectURL(url);
   };
 
   if (isLoading) {
