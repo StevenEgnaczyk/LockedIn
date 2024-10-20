@@ -7,15 +7,14 @@ import ProfileRow from "./ProfileRow";
 import ProfilePanel from "./ProfilePanel";
 import { stemmer } from 'stemmer';
 
-const NavBarLeft = () => {
+const NavBarLeft = ({ activeNode }) => {
     const { graphData } = useGraphData();  // Get graphData from context
     const [isOpen, setOpen] = useState(false);
-    const [resultCount, setResultCount] = useState(1000); // Default to 10 results
-    const [profileOpen, setProfileOpen] = useState(false);
+    const [resultCount, setResultCount] = useState(10); // Default to 10 results
     const maxResults = 25; // Maximum results
 
     const [openNode, setOpenNode] = useState(null);
-    const [search, setSearch] = useState(''); // New state for search input
+    const [search, setSearch] = useState(''); // State for search input
     const [filteredNodes, setFilteredNodes] = useState([]); // State for filtered nodes
 
     // Effect to auto-populate filtered nodes when graphData changes
@@ -24,6 +23,17 @@ const NavBarLeft = () => {
             setFilteredNodes(graphData.nodes.slice(0, resultCount)); // Set initial filtered nodes
         }
     }, [graphData, resultCount]); // Run effect when graphData or resultCount changes
+
+    // Effect to handle opening profile based on activeNode
+    useEffect(() => {
+        if (activeNode) {
+            setOpenNode(activeNode);
+            setOpen(true); // Open the navbar when there's an active node
+        } else {
+            setOpenNode(null);
+            setOpen(false); // Close the navbar if there's no active node
+        }
+    }, [activeNode]); // Trigger effect when activeNode changes
 
     const openNavbar = () => {
         setOpen(!isOpen);
@@ -40,12 +50,10 @@ const NavBarLeft = () => {
     }
 
     const openProfile = (node) => {
-        setProfileOpen(true);
         setOpenNode(node);
     }
 
     const closeProfile = () => {
-        setProfileOpen(false);
         setOpenNode(null);
     }
 
@@ -87,12 +95,10 @@ const NavBarLeft = () => {
             const relevanceScore = calculateRelevanceScore(nodeStems, searchStems);
             return { ...node, relevanceScore };
         }).filter(node => node.relevanceScore > 0)
-          .sort((a, b) => b.relevanceScore - a.relevanceScore);
+            .sort((a, b) => b.relevanceScore - a.relevanceScore);
 
         setFilteredNodes(rankedNodes.slice(0, resultCount));
     };
-
-
 
     const handleInputChange = (event) => {
         setSearch(event.target.value); // Update search state
@@ -109,13 +115,17 @@ const NavBarLeft = () => {
 
     return (
         <div className={"navbar-container"}>
-            {isOpen ? (
+            {!isOpen ? (
                 <Button className={"popout-button"} isIconOnly color="danger" aria-label="Like" disableRipple={true}>
                     <BsChevronDoubleRight className={'icon'} onClick={openNavbar} />
                 </Button>
             ) : (
                 <div className={"open-navbar-left"}>
-                    {!profileOpen ? (
+                    {openNode ? (
+                        <div>
+                            <ProfilePanel node={openNode} closeProfile={closeProfile} />
+                        </div>
+                    ) : (
                         <div>
                             <div className={'top-row'}>
                                 <form className={"search-bar"} onSubmit={handleSearch}>
@@ -148,10 +158,6 @@ const NavBarLeft = () => {
                             <div className={'search-content'}>
                                 {profileRows.length > 0 ? profileRows : <div>No profiles available.</div>}
                             </div>
-                        </div>
-                    ) : (
-                        <div>
-                            <ProfilePanel node={openNode} closeProfile={closeProfile} />
                         </div>
                     )}
                 </div>
