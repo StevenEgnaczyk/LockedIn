@@ -93,53 +93,66 @@ const UserMerge = () => {
 
     const mergedFields = {};
     selectedUserData.forEach(user => {
-      Object.keys(user).forEach(key => {
-        if (key !== 'id' && key !== 'connections') {
-          if (!mergedFields[key]) {
-            mergedFields[key] = new Set();
-          }
-          mergedFields[key].add(user[key]);
-        }
-      });
+        Object.keys(user).forEach(key => {
+            if (key !== 'id' && key !== 'connections') {
+                if (!mergedFields[key]) {
+                    mergedFields[key] = new Set();
+                }
+                mergedFields[key].add(user[key]);
+            }
+        });
     });
 
     // Prepare nodes for the JSON structure
     const nodes = allConnectionData
-      .filter(conn => allConnectionsList.includes(conn.id))
-      .map(conn => ({
-        id: conn.id,
-        name: `${conn.first_name} ${conn.last_name}`,
-        profile_url: `${conn.url}`,
-        company: `${conn.company}`,
-        connected_on: `${conn.connected_on}`,
-        position: `${conn.position}`,
-        email: `${conn.email_address}`,
-      }));
+        .filter(conn => allConnectionsList.includes(conn.id))
+        .map(conn => ({
+            id: conn.id,
+            name: `${conn.first_name} ${conn.last_name}`,
+            profile_url: `${conn.url}`,
+            company: `${conn.company}`,
+            connected_on: `${conn.connected_on}`,
+            position: `${conn.position}`,
+            email: `${conn.email_address}`,
+            connectionCount: 0, // Initialize connection count
+        }));
 
     // Add selected users to nodes as well
     const selectedNodes = selectedUserData.map(user => ({
-      id: user.id,
-      name: `${user.first_name} ${user.last_name}`  // Combine first and last names
+        id: user.id,
+        name: `${user.first_name} ${user.last_name}`,
+        connectionCount: 0, // Initialize connection count
     }));
 
     // Merge selected users into nodes
     const allNodes = [...new Map([...selectedNodes, ...nodes].map(item => [item.id, item])).values()];
 
+    // Prepare a connection count map
+    const connectionCountMap = new Map();
+
+    selectedUserData.forEach(user => {
+        user.connectionIds.forEach(connectionId => {
+            connectionCountMap.set(connectionId, (connectionCountMap.get(connectionId) || 0) + 1);
+        });
+    });
+
     // Prepare links for the JSON structure
     const links = [];
     selectedUserData.forEach(user => {
-      user.connectionIds.forEach(connectionId => {
-        links.push({
-          source: user.id,   // The selected user ID
-          target: connectionId // The connection in their list
+        user.connectionIds.forEach(connectionId => {
+            const thickness = connectionCountMap.get(connectionId) || 1; // Default to 1 if no connections
+            links.push({
+                source: user.id,   // The selected user ID
+                target: connectionId, // The connection in their list
+                thickness: thickness // Assign thickness based on connection count
+            });
         });
-      });
     });
 
     // Create JSON object
     const graphData = {
-      nodes: allNodes,
-      links: links  // Add links to the JSON object
+        nodes: allNodes,
+        links: links  // Add links to the JSON object
     };
 
     // Set the graph data in the context
@@ -147,18 +160,19 @@ const UserMerge = () => {
 
     // Save the JSON object to a file
     const saveGraphDataToFile = (data) => {
-      const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'graphData.json';
-      a.click();
-      URL.revokeObjectURL(url);
+        const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'graphData.json';
+        a.click();
+        URL.revokeObjectURL(url);
     };
 
     // Call the function to save the file
     saveGraphDataToFile(graphData);
-  };
+};
+
 
   if (isLoading) {
     return <div>Loading users...</div>;
