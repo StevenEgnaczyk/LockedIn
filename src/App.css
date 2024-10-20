@@ -21,6 +21,14 @@
   z-index: 100;
 }
 
+.app-title {
+  position: absolute;
+  z-index: 1000;
+  color: white;
+  top: 2%;
+  left: calc(50% - 2rem);
+}
+
 .login-graph {
   position: relative;
   z-index: 1;
@@ -52,4 +60,13 @@
   z-index: 10000;
   bottom: 0;
   right: calc(50% - 10vw - 1rem);
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #555;
+  border-radius: 1rem;
 }
