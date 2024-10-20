@@ -87,7 +87,7 @@ const NavBarLeft = () => {
                     ) : (
                         <div>
 
-                            <ProfilePanel node={openNode} closeProfile={closeProfile}/>
+                            <ProfilePanel allNodes={graphData.nodes} node={openNode} closeProfile={closeProfile}/>
                         </div>
                     )}
                 </div>

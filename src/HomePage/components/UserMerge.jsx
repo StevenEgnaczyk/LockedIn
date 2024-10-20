@@ -114,12 +114,14 @@ const UserMerge = () => {
         connected_on: `${conn.connected_on}`,
         position: `${conn.position}`,
         email: `${conn.email_address}`,
+        connections: []
       }));
 
     // Add selected users to nodes as well
     const selectedNodes = selectedUserData.map(user => ({
       id: user.id,
-      name: `${user.first_name} ${user.last_name}`  // Combine first and last names
+      name: `${user.first_name} ${user.last_name}`, // Combine first and last names
+      connections: []
     }));
 
     // Merge selected users into nodes
@@ -133,6 +135,24 @@ const UserMerge = () => {
           source: user.id,   // The selected user ID
           target: connectionId // The connection in their list
         });
+        // Add the connection to both source and target nodes
+        const sourceNode = allNodes.find(node => node.id === user.id);
+        const targetNode = allNodes.find(node => node.id === connectionId);
+
+        if (sourceNode && targetNode) {
+          // Only add the connection if it's one-way and not mutual
+          if (!targetNode.connections.includes(sourceNode.id)) {
+            sourceNode.connections.push(targetNode.id);
+          }
+
+          // Add the link only if it's not mutual already
+          if (!links.some(link => link.source === targetNode.id && link.target === sourceNode.id)) {
+            links.push({
+              source: user.id,   // The selected user ID
+              target: connectionId // The connection in their list
+            });
+          }
+        }
       });
     });
 
