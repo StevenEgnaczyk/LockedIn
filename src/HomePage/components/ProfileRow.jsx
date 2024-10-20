@@ -1,11 +1,13 @@
 import React from "react";
 import './ProfileRow.css';
 
-const ProfileRow = ({ name, company, position, openProfile, profile_url}) => {
+const ProfileRow = ({ name, company, position, openProfile, linkedInUrl }) => {
     return (
         <div className={'profile-row'} onClick={openProfile}>
-            <div className={'user-text'} onClick={window.open(profile_url, '_blank')}>
-                <h2 className={'profile-name'}>{name}</h2>
+            <div className={'user-text'}>
+                <a className={'linkedTitle'} href={linkedInUrl} target="_blank" rel="noopener noreferrer">
+                    {name}
+                </a>
                 {company && <p>Company: {company}</p>}
                 {position && <p>Position: {position}</p>}
             </div>

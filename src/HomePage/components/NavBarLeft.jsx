@@ -101,10 +101,10 @@ const NavBarLeft = () => {
     // Prepare profileRows based on filteredNodes
     const profileRows = filteredNodes.map((node, index) => (
         <ProfileRow key={index} openProfile={() => openProfile(node)} 
-        name={node.name} 
+        name={node.name}
         company={node.company} 
         position={node.position}
-        url={node.profile_url}/>
+        linkedInUrl={node.profile_url}/>
     ));
 
     return (
