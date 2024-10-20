@@ -17,6 +17,8 @@ const App = () => {
   const [activeNode, setActiveNode] = useState(null);
   const graphRef = useRef();
 
+  const [resetCamera, setResetCamera] = useState(false); // State for resetting camera
+
   const handleLogin = () => {
     setIsLoggedIn(true);
   }
@@ -33,7 +35,7 @@ const App = () => {
   return (
     <div className={'page'}>
       <div style={{ width: '100vw', height: '100vh', margin: 0 }}>
-        <FocusGraph nodeClick={handleNodeClick} ref={graphRef} />
+        <FocusGraph resetCamera={resetCamera} ref={graphRef} />
         {!isLoggedIn && (
           <div className={"startup"}>
             <Startup onLogin={handleLogin} />
@@ -41,17 +43,16 @@ const App = () => {
         )}
         {isLoggedIn && (
             <div>
-                <h1 className={'app-title'}>LockedIn</h1>
                 <UserMerge style={{display:'none'}}/>
             <div className={"navbarright"}>
 
               <NavBarRight setLogOut={handleLogout} />
             </div>
             <div className={"navbarleft"}>
-              <NavBarLeft activeNode={activeNode}/>
+              <NavBarLeft />
             </div>
             <div className={'position-controls'}>
-              <PositionControls resetCamera={graphRef.current?.reset} /> {/* Pass resetCamera prop */}
+              <PositionControls setResetCamera={setResetCamera} /> {/* Pass resetCamera prop */}
             </div>
           </div>
         )}
