@@ -67,3 +67,15 @@ button:disabled {
 input {
     margin-bottom: 1rem;
 }
+
+.user-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px 0;
+    width: 120%;
+}
+
+.user-row input[type="checkbox"] {
+    margin-left: auto;
+}
