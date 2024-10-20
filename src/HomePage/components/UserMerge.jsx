@@ -175,7 +175,7 @@ const UserMerge = () => {
     };
   
     setGraphData(graphData);
-    downloadJSON(graphData);  // Call the download function here
+    //downloadJSON(graphData);  // Call the download function here
   };
 
   if (isLoading) {
