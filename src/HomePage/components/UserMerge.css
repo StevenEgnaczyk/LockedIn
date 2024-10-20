@@ -2,14 +2,14 @@
 
 body {
     font-family: Arial, sans-serif;
-    background-color: #f4f4f4; /* Light background for better contrast */
+    
     margin: 0;
 }
 
 /* Container for the UserMerge component */
 .user-merge-container {
     width: 85%;
-    background-color: #ffffff; /* White background for the component */
+    background-color: transparent; /* White background for the component */
     border-radius: 8px; /* Rounded corners */
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
     padding: 20px; /* Padding around content */
@@ -23,7 +23,7 @@ body {
 
 /* Title styling */
 h2 {
-    color: #333; /* Dark gray color for the title */
+    color: white; /* Dark gray color for the title */
     margin-bottom: 20px; /* Space below the title */
 }
 
@@ -38,7 +38,7 @@ h2 {
 label {
     margin-left: 8px; /* Space between checkbox and label */
     cursor: pointer; /* Pointer cursor for labels */
-    color: #555; /* Medium gray for label text */
+    color: white; /* Medium gray for label text */
 }
 
 /* Button styling */
@@ -71,11 +71,7 @@ input {
 .user-row {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
     padding: 5px 0;
     width: 120%;
-}
-
-.user-row input[type="checkbox"] {
-    margin-left: auto;
 }

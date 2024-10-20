@@ -12,7 +12,8 @@
     padding: 1rem;
     background-color: transparent;
     color: white;
-    animation: slide 0.3s backwards;
+    animation: slideFromRight 0.3s backwards;
+    margin-right: auto;
 }
 
 .popout-button:focus {
