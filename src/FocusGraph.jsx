@@ -75,7 +75,6 @@ const FocusGraph = forwardRef((props, ref) => {
         linkDirectionalParticles={10}
         linkDirectionalParticleWidth={1}
         linkDirectionalParticleSpeed={0.01}
-        linkCurvature={0.1}
         linkOpacity={0.1}
         backgroundColor="black"
       />
