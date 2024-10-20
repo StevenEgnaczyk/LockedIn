@@ -7,10 +7,9 @@ import { BsFunnel } from "react-icons/bs";
 import UserMerge from "./UserMerge";
 import FileUpload from "./FileUpload";
 
-
 const NavBarRight = ({setLogOut}) => {
     const [isOpen, setOpen] = useState(false);
-    const [fullBarPage, setFullBarPage] = useState(null); // Manage the active page
+    const [fullBarPage, setFullBarPage] = useState(null);
 
     const toggleNavbar = () => {
         if (isOpen) {
@@ -20,15 +19,13 @@ const NavBarRight = ({setLogOut}) => {
     }
 
     const setBarPage = (page) => {
-        setFullBarPage(page); // Set the active page based on button click
+        setFullBarPage(page);
     };
 
     return (
         <div className="navbar-right-container">
             {fullBarPage && (
                 <div className="full-bar">
-                    {/* Render content based on the active page */}
-
                     {fullBarPage === 'Log Out' && <button  onClick={setLogOut}>Confirm Logout?</button> }
                     {fullBarPage === 'filter' && <UserMerge />}
                     {fullBarPage === 'file-upload' && <FileUpload />}

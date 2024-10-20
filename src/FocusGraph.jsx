@@ -2,7 +2,7 @@ import React, { useRef, useCallback, useEffect, forwardRef, useImperativeHandle 
 import ForceGraph3D from 'react-force-graph-3d';
 import { useGraphData } from './HomePage/components/GraphDataContext';
 
-const FocusGraph = forwardRef((props, ref) => {
+const FocusGraph = forwardRef(({ nodeClick }, props, ref) => {
   const fgRef = useRef();
   const { graphData, setGraphData } = useGraphData();
 
@@ -16,6 +16,7 @@ const FocusGraph = forwardRef((props, ref) => {
         node, // lookAt
         3000 // ms transition duration
       );
+      nodeClick(node);
     },
     [fgRef]
   );
