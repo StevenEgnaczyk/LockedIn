@@ -29,7 +29,6 @@ const NavBarRight = ({setLogOut}) => {
                     {fullBarPage === 'Log Out' && <button  onClick={setLogOut}>Confirm Logout?</button> }
                     {fullBarPage === 'filter' && <UserMerge />}
                     {fullBarPage === 'file-upload' && <FileUpload />}
-
                 </div>
             )}
             <div className="navbar-dropdown">
@@ -37,11 +36,9 @@ const NavBarRight = ({setLogOut}) => {
                 <CiSettings className="icon-right" />
             </div>
             {isOpen && (
-
                 <div>
                     <div className="Logout-button" onClick={() => setBarPage('Log Out')}>
-                        <BsPower className="icon" />  
-
+                        <BsPower className="icon" />
                     </div>
                     <div className="filter-button" onClick={() => setBarPage('filter')}>
                         <BsFunnel className="icon" />

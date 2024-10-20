@@ -10,13 +10,13 @@ const Login = ({onLogin}) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-
     const handleLogin = async (e) => {
         e.preventDefault();
         try {
-            await signInWithEmailAndPassword(auth, email, password);
+            const userCredential = await signInWithEmailAndPassword(auth, email, password);
             toast.success("Logged in successfully");
-            onLogin();
+            const user = userCredential.user;
+            onLogin(user);
         } catch (error) {
             console.error("Error signing in:", error);
             toast.error("Failed to log in. Please check your credentials.");

@@ -6,10 +6,10 @@ import './Startup.css';
 
 const Startup = ({user, setUser, onLogin}) => {
 
-    const [isSigningUp, setIsSigningUp] = useState(false); // State to toggle between Login and Signup
+    const [isSigningUp, setIsSigningUp] = useState(false);
 
     const toggleAuthMode = () => {
-        setIsSigningUp((prevState) => !prevState); // Toggle between Login and Signup
+        setIsSigningUp((prevState) => !prevState);
     };
 
     return (
