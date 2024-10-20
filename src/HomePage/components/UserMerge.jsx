@@ -105,23 +105,24 @@ const UserMerge = () => {
 
     // Prepare nodes for the JSON structure
     const nodes = allConnectionData
-        .filter(conn => allConnectionsList.includes(conn.id))
-        .map(conn => ({
-            id: conn.id,
-            name: `${conn.first_name} ${conn.last_name}`,
-            profile_url: `${conn.url}`,
-            company: `${conn.company}`,
-            connected_on: `${conn.connected_on}`,
-            position: `${conn.position}`,
-            email: `${conn.email_address}`,
-            connectionCount: 0, // Initialize connection count
-        }));
+      .filter(conn => allConnectionsList.includes(conn.id))
+      .map(conn => ({
+        id: conn.id,
+        name: `${conn.first_name} ${conn.last_name}`,
+        profile_url: `${conn.url}`,
+        company: `${conn.company}`,
+        connected_on: `${conn.connected_on}`,
+        position: `${conn.position}`,
+        email: `${conn.email_address}`,
+        connections: []
+      }));
 
     // Add selected users to nodes as well
     const selectedNodes = selectedUserData.map(user => ({
-        id: user.id,
-        name: `${user.first_name} ${user.last_name}`,
-        connectionCount: 0, // Initialize connection count
+      id: user.id,
+      name: `${user.first_name} ${user.last_name}`, // Combine first and last names
+      connections: [],
+      connectionCount: 0, // Initialize connection count
     }));
 
     // Merge selected users into nodes
@@ -147,6 +148,25 @@ const UserMerge = () => {
                 thickness: thickness // Assign thickness based on connection count
             });
         });
+        // Add the connection to both source and target nodes
+        const sourceNode = allNodes.find(node => node.id === user.id);
+        const targetNode = allNodes.find(node => node.id === connectionId);
+
+        if (sourceNode && targetNode) {
+          // Only add the connection if it's one-way and not mutual
+          if (!targetNode.connections.includes(sourceNode.id)) {
+            sourceNode.connections.push(targetNode.id);
+          }
+
+          // Add the link only if it's not mutual already
+          if (!links.some(link => link.source === targetNode.id && link.target === sourceNode.id)) {
+            links.push({
+              source: user.id,   // The selected user ID
+              target: connectionId // The connection in their list
+            });
+          }
+        }
+      });
     });
 
     // Create JSON object
