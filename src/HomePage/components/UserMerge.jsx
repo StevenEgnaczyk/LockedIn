@@ -82,11 +82,23 @@ const UserMerge = () => {
     }));
   };
 
+  const downloadJSON = (data) => {
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'graphData.json';  // Specify the filename for the downloaded file
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);  // Clean up the URL object
+  };
+
   const generateGraph = async () => {
     const selectedUserData = users.filter(user => selectedUsers.includes(user.id));
     const allConnectionsList = findAllConnections(selectedUserData);
     const allConnectionData = await fetchAllConnections();
-
+  
     const mergedFields = {};
     selectedUserData.forEach(user => {
       Object.keys(user).forEach(key => {
@@ -98,37 +110,46 @@ const UserMerge = () => {
         }
       });
     });
-
-    const nodes = allConnectionData
-      .filter(conn => allConnectionsList.includes(conn.id))
-      .map(conn => ({
-        id: conn.id,
-        name: `${conn.first_name} ${conn.last_name}`,
-        profile_url: conn.url,
-        company: conn.company,
-        connected_on: conn.connected_on,
-        position: conn.position,
-        email: conn.email_address,
-        connections: []
-      }));
-
-    const selectedNodes = selectedUserData.map(user => ({
-      id: user.id,
-      name: `${user.first_name} ${user.last_name}`,
-      connections: [],
-      connectionCount: 0,
-    }));
-
-    const allNodes = [...new Map([...selectedNodes, ...nodes].map(item => [item.id, item])).values()];
-
+  
+    // Create a map to store the number of connections each node has
     const connectionCountMap = new Map();
-
+  
     selectedUserData.forEach(user => {
       user.connectionIds.forEach(connectionId => {
         connectionCountMap.set(connectionId, (connectionCountMap.get(connectionId) || 0) + 1);
       });
     });
-
+  
+    const nodes = allConnectionData
+      .filter(conn => allConnectionsList.includes(conn.id))
+      .map(conn => {
+        const connectionCount = connectionCountMap.get(conn.id) || 1; // Default to 1 if no connections found
+        return {
+          id: conn.id,
+          name: `${conn.first_name} ${conn.last_name}`,
+          profile_url: conn.url,
+          company: conn.company,
+          connected_on: conn.connected_on,
+          position: conn.position,
+          email: conn.email_address,
+          connections: [],
+          size: Math.max(5, connectionCount * 2) // Set size proportional to connection count
+        };
+      });
+  
+    const selectedNodes = selectedUserData.map(user => {
+      const connectionCount = user.connectionIds.length;
+      return {
+        id: user.id,
+        name: `${user.first_name} ${user.last_name}`,
+        connections: [],
+        connectionCount: connectionCount,
+        size: Math.max(5, connectionCount * 2) // Set size proportional to connection count
+      };
+    });
+  
+    const allNodes = [...new Map([...selectedNodes, ...nodes].map(item => [item.id, item])).values()];
+  
     const links = [];
     selectedUserData.forEach(user => {
       user.connectionIds.forEach(connectionId => {
@@ -138,22 +159,23 @@ const UserMerge = () => {
           target: connectionId,
           thickness: thickness
         });
-
+  
         const sourceNode = allNodes.find(node => node.id === user.id);
         const targetNode = allNodes.find(node => node.id === connectionId);
-
+  
         if (sourceNode && targetNode && !sourceNode.connections.includes(targetNode.id)) {
           sourceNode.connections.push(targetNode.id);
         }
       });
     });
-
+  
     const graphData = {
       nodes: allNodes,
       links: links
     };
-
+  
     setGraphData(graphData);
+    downloadJSON(graphData);  // Call the download function here
   };
 
   if (isLoading) {
