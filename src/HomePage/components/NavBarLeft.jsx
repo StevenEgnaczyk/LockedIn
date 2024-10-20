@@ -9,9 +9,11 @@ import ProfilePanel from "./ProfilePanel";
 const NavBarLeft = () => {
     const { graphData } = useGraphData();  // Get graphData from context
     const [isOpen, setOpen] = useState(false);
-    const [resultCount, setResultCount] = useState(10); // Default to 10 results
+    const [resultCount, setResultCount] = useState(1000); // Default to 10 results
     const [profileOpen, setProfileOpen] = useState(false);
     const maxResults = 25; // Maximum results
+
+    const [openNode, setOpenNode] = useState(null);
 
     const openNavbar = () => {
         setOpen(!isOpen);
@@ -27,13 +29,19 @@ const NavBarLeft = () => {
         }
     }
 
-    const openProfile = () => {
-        setProfileOpen(!profileOpen);  // Correctly toggle profileOpen state
+    const openProfile = (node) => {
+        setProfileOpen(true);
+        setOpenNode(node);
+    }
+
+    const closeProfile = () => {
+        setProfileOpen(false);
+        setOpenNode(null);
     }
 
     // Prepare profileRows based on graphData if available
     const profileRows = graphData?.nodes?.slice(0, resultCount).map((node, index) => (
-        <ProfileRow key={index} name={node.name} company={node.company} position={node.position} />
+        <ProfileRow key={index} openProfile= {() => openProfile(node)} name={node.name} company={node.company} position={node.position} />
     )) || [];  // Ensure profileRows is always defined as an array
 
     return (
@@ -43,7 +51,7 @@ const NavBarLeft = () => {
                     <BsChevronDoubleRight className={'icon'} onClick={openNavbar}/>
                 </Button>
             ) : (
-                <div className={"open-navbar"}>
+                <div className={"open-navbar-left"}>
                     {!profileOpen ? (
                         <div>
                             <div className={'top-row'}>
@@ -61,7 +69,7 @@ const NavBarLeft = () => {
                                 </div>
                             </div>
                             <div className={'result-count'}>
-                                <label htmlFor="resultCount">Results:</label>
+                                <label className={'result-text'} htmlFor="resultCount">Results:</label>
                                 <input
                                     className={'counter'}
                                     type="number"
@@ -78,9 +86,8 @@ const NavBarLeft = () => {
                         </div>
                     ) : (
                         <div>
-                            <div className={"popout-button"}>
-                                <ProfilePanel />
-                            </div>
+
+                            <ProfilePanel node={openNode} closeProfile={closeProfile}/>
                         </div>
                     )}
                 </div>

@@ -1,0 +1,10 @@
+
+.big-profile {
+    color: white;
+    display: flex;
+    flex-direction: column;
+}
+
+.popout-button {
+    margin-left: auto;
+}
