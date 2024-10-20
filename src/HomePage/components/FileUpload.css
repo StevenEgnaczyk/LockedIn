@@ -11,12 +11,6 @@
     margin: 0 auto; /* Center the container horizontally */
 }
 
-h2 {
-    margin-bottom: 20px;
-    color: #333;
-    font-size: 24px;
-}
-
 .input-labels {
     display: flex;
     flex-direction: column;

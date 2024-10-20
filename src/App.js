@@ -4,7 +4,6 @@ import { useGraphData } from "./HomePage/components/GraphDataContext";
 import ForceGraph3D from "react-force-graph-3d";
 import NavBarLeft from "./HomePage/components/NavBarLeft";
 import Startup from "./HomePage/components/Startup";
-import UploadBar from "./HomePage/components/UploadBar";
 import { ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 import FakeComponent from "./HomePage/components/FakeComponent";
