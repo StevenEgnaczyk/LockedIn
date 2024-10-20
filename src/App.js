@@ -4,13 +4,13 @@ import { useGraphData } from "./HomePage/components/GraphDataContext";
 import ForceGraph3D from "react-force-graph-3d";
 import NavBarLeft from "./HomePage/components/NavBarLeft";
 import Startup from "./HomePage/components/Startup";
-import UploadBar from "./HomePage/components/UploadBar";
 import { ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 import FakeComponent from "./HomePage/components/FakeComponent";
 import NavBarRight from "./HomePage/components/NavBarRight";
 import FocusGraph from './FocusGraph';
-import PositionControls from './HomePage/components/PositionControls'; // Import PositionControls
+import PositionControls from './HomePage/components/PositionControls';
+import UserMerge from "./HomePage/components/UserMerge";
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -33,10 +33,12 @@ const App = () => {
             <Startup onLogin={handleLogin} />
           </div>
         )}
-        <div className={'dot'}>.</div>
         {isLoggedIn && (
-          <div>
+            <div>
+                <h1 className={'app-title'}>LockedIn</h1>
+                <UserMerge style={{display:'none'}}/>
             <div className={"navbarright"}>
+
               <NavBarRight setLogOut={handleLogout} />
             </div>
             <div className={"navbarleft"}>

@@ -20,6 +20,13 @@ const FocusGraph = forwardRef((props, ref) => {
     [fgRef]
   );
 
+  // Function to handle right-click on a node
+  const handleRightClick = useCallback((node) => {
+    if (node.profile_url) {
+      window.open(node.profile_url, '_blank'); // Open the URL in a new tab
+    }
+  }, []);
+
   // Define the reset function
   const resetCamera = useCallback(() => {
     // Reset to a default camera position
@@ -46,7 +53,9 @@ const FocusGraph = forwardRef((props, ref) => {
     return <div>Loading...</div>;
   }
 
-  console.log(graphData.links);
+  graphData.nodes.forEach(node => {
+    console.log(`Node ID: ${node.id}, Size: ${node.size}`);
+  });
 
   return (
     <div style={{ width: '100vw', height: '100vh', margin: 0 }}>
@@ -57,11 +66,17 @@ const FocusGraph = forwardRef((props, ref) => {
         nodeAutoColorBy="position"
         nodeLabel="name"
         showNavInfo={false}
-        nodeOpacity={0.75}
+        nodeOpacity={0.8}
         enableNodeDrag={false}
-        nodeRelSize={2}
+        nodeVal={node => Math.sqrt(node.size) / 2} // Set node size based on size property
         onNodeClick={handleClick}
-        linkWidth={link => link.thickness / 4} // Use the thickness property
+        onNodeRightClick={handleRightClick} // Add right-click handler
+        linkWidth={link => link.thickness} // Use the thickness property
+        linkDirectionalParticles={10}
+        linkDirectionalParticleWidth={1}
+        linkDirectionalParticleSpeed={0.01}
+        linkOpacity={0.1}
+        backgroundColor="black"
       />
     </div>
   );
