@@ -5,6 +5,7 @@ import { useGraphData } from './GraphDataContext';  // Import your GraphDataCont
 import './NavBarLeft.css';
 import ProfileRow from "./ProfileRow";
 import ProfilePanel from "./ProfilePanel";
+import { stemmer } from 'stemmer';
 
 const NavBarLeft = () => {
     const { graphData } = useGraphData();  // Get graphData from context
@@ -14,6 +15,8 @@ const NavBarLeft = () => {
     const maxResults = 25; // Maximum results
 
     const [openNode, setOpenNode] = useState(null);
+    const [search, setSearch] = useState(''); // New state for search input
+    const [filteredNodes, setFilteredNodes] = useState([]); // State for filtered nodes
 
     const openNavbar = () => {
         setOpen(!isOpen);
@@ -39,36 +42,87 @@ const NavBarLeft = () => {
         setOpenNode(null);
     }
 
-    // Prepare profileRows based on graphData if available
-    const profileRows = graphData?.nodes?.slice(0, resultCount).map((node, index) => (
-        <ProfileRow key={index} openProfile= {() => openProfile(node)} name={node.name} company={node.company} position={node.position} />
-    )) || [];  // Ensure profileRows is always defined as an array
+    const getStems = (text) => {
+        return text.toLowerCase().split(/\s+/).map(word => stemmer(word));
+    };
+
+    const calculateRelevanceScore = (nodeStems, searchStems) => {
+        let score = 0;
+        const matchedStems = new Set();
+
+        for (let searchStem of searchStems) {
+            for (let nodeStem of nodeStems) {
+                if (nodeStem.includes(searchStem) && !matchedStems.has(nodeStem)) {
+                    score += searchStem === nodeStem ? 2 : 1; // Full match scores higher
+                    matchedStems.add(nodeStem);
+                    break;
+                }
+            }
+        }
+
+        return score;
+    };
+
+    const handleSearch = (event) => {
+        event.preventDefault();
+        if (!graphData || !graphData.nodes) return;
+
+        if (!search.trim()) {
+            setFilteredNodes(graphData.nodes.slice(0, resultCount));
+            return;
+        }
+
+        const searchStems = getStems(search);
+
+        const rankedNodes = graphData.nodes.map(node => {
+            const nodeText = `${node.name} ${node.company} ${node.position}`;
+            const nodeStems = getStems(nodeText);
+            const relevanceScore = calculateRelevanceScore(nodeStems, searchStems);
+            return { ...node, relevanceScore };
+        }).filter(node => node.relevanceScore > 0)
+          .sort((a, b) => b.relevanceScore - a.relevanceScore);
+
+        setFilteredNodes(rankedNodes.slice(0, resultCount));
+    };
+
+
+
+    const handleInputChange = (event) => {
+        setSearch(event.target.value); // Update search state
+    }
+
+    // Prepare profileRows based on filteredNodes
+    const profileRows = filteredNodes.map((node, index) => (
+        <ProfileRow key={index} openProfile={() => openProfile(node)} name={node.name} company={node.company} position={node.position} />
+    ));
 
     return (
         <div className={"navbar-container"}>
             {isOpen ? (
                 <Button className={"popout-button"} isIconOnly color="danger" aria-label="Like" disableRipple={true}>
-                    <BsChevronDoubleRight className={'icon'} onClick={openNavbar}/>
+                    <BsChevronDoubleRight className={'icon'} onClick={openNavbar} />
                 </Button>
             ) : (
                 <div className={"open-navbar-left"}>
                     {!profileOpen ? (
                         <div>
                             <div className={'top-row'}>
-                                <form className={"search-bar"}>
+                                <form className={"search-bar"} onSubmit={handleSearch}>
                                     <input
                                         type="text"
-                                        placeholder={graphData ? "Search..." : ""} // Conditionally set placeholder
-                                        onFocus={(e) => e.target.placeholder = ''} // Clear placeholder on focus
-                                        onBlur={(e) => e.target.placeholder = graphData ? 'Search...' : ''} // Restore placeholder on blur
+                                        value={search}
+                                        onChange={handleInputChange}
+                                        placeholder={graphData ? "Search..." : ""}
+                                        onFocus={(e) => e.target.placeholder = ''}
+                                        onBlur={(e) => e.target.placeholder = graphData ? 'Search...' : ''}
                                     />
-                                    <button type="button" className={"search-button"}>🔍</button>
+                                    <button type="submit" className={"search-button"}>🔍</button>
                                 </form>
                                 <div className={"popout-button"}>
-                                    <BsChevronDoubleLeft className={'icon'} onClick={openNavbar}/>
+                                    <BsChevronDoubleLeft className={'icon'} onClick={openNavbar} />
                                 </div>
                             </div>
-                            <div className={'result-count'}>
+                            <div className={"result-count"}>
                                 <label className={'result-text'} htmlFor="resultCount">Results:</label>
                                 <input
                                     className={'counter'}
@@ -81,13 +135,17 @@ const NavBarLeft = () => {
                                 />
                             </div>
                             <div className={'search-content'}>
-                                {profileRows.length > 0 ? profileRows : <div>No profiles available.</div>} {/* Ensure profileRows is valid */}
+                                {profileRows.length > 0 ? profileRows : <div>No profiles available.</div>}
                             </div>
                         </div>
                     ) : (
                         <div>
+<<<<<<< Updated upstream
 
                             <ProfilePanel allNodes={graphData.nodes} node={openNode} closeProfile={closeProfile}/>
+=======
+                            <ProfilePanel node={openNode} closeProfile={closeProfile} />
+>>>>>>> Stashed changes
                         </div>
                     )}
                 </div>
